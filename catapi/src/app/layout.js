@@ -1,6 +1,5 @@
 import './globals.css'
 
-
 export const metadata = {
   title: 'Cute cats API',
   description: 'Look for best cat ever',

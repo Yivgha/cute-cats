@@ -5,18 +5,21 @@
     width: 1440px;
     height: 900px;
     padding: 30px 30px 30px 147px;
+    background: #F8F8F7;
 }
 
 .leftSide{
     width: 446px;
     height: 544px;
     border-radius: 20px;
-    border: 1px solid black;
+    /* margin-right: 72px; */
+    /* border: 1px solid black; */
 }
 
 .rightSide{
     width: 680px;
     height: 840px;
+    /* margin-left: 65px; */
     border-radius: 20px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }

@@ -8,10 +8,12 @@ export const metadata = {
   },
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout(props) {
   return (
     <html lang="en">
-      <body >{children}</body>
+      <body >
+        {props.children}
+      </body>
     </html>
   )
 }

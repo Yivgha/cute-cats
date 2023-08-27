@@ -1,0 +1,4 @@
+.votingWrapper{
+    display: flex;
+    flex-direction: column;
+}

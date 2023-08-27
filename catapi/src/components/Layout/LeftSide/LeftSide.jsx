@@ -22,7 +22,7 @@ const LeftSide = () => {
                   <div>
                       <ul className={styles.mainList}>
                           <li className={styles.listElWrapper}>
-                              <a href='/'>
+                              <a href='/voting' target='_blank'>
                               <div className={`${styles.listEl} ${styles.votesEl}`}>
                                   <Image src={votes}  alt="votes element img" width="100px" height="124px"/>
                               </div>
@@ -32,7 +32,7 @@ const LeftSide = () => {
                                   </a>
                           </li>
                           <li className={styles.listElWrapper}>
-                              <a href='/'>
+                              <a href='/' target='_blank'>
                               <div className={`${styles.listEl} ${styles.breedsEl}`}>
                                   <Image src={breed}  alt="breed element img" width="100px" height="124px"/>
                               </div>
@@ -42,7 +42,7 @@ const LeftSide = () => {
                                   </a>
                           </li>
                           <li className={styles.listElWrapper}>
-                              <a href='/'>
+                              <a href='/' target='_blank'>
                               <div className={`${styles.listEl} ${styles.galleryEl}`}>
                                   <Image src={gallery}  alt="gallery element img" width="100px" height="124px"/>
                               </div>

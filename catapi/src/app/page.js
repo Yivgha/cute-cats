@@ -1,10 +1,14 @@
 import styles from './page.module.css'
-import HomeLayout from '@/components/Layout/Layout'
+import LeftSidePage from './@left/page';
+import RightSidePage from './@right/page';
 
-export default function Home() {
+ const Home = () => {
   return (
-    <main className={styles.main}>
-      <HomeLayout />
+    <main className={`${styles.main} ${styles.wrapper}`}>
+      <LeftSidePage />
+      <RightSidePage />
     </main>
   )
 }
+
+export default Home;

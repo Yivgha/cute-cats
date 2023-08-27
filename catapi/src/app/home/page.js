@@ -3,8 +3,12 @@ import React from 'react'
 import Dashboard from '@/components/Dashboard/Dashboard'
 
 
-export default function Header() {
+const HomePage = () => {
   return (
-    <><Dashboard /></>
+    <>
+      <Dashboard />
+    </>
   )
 }
+
+export default HomePage

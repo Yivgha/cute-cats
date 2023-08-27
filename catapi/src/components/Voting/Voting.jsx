@@ -1,14 +1,17 @@
 import React from 'react'
 import styles from "./Voting.module.css"
-import Header from "../../app/home/page"
+import Dashboard from '../Dashboard/Dashboard'
+import LikesNav from "../LikesNav/LikesNav"
+
 
 const Voting = () => {
   return (
-    <div className={styles.defaultWrapper}>
-      <div className={styles.leftWrapper}><Header /> </div>
+    <div className={styles.wrapper}>
+        <Dashboard />
       
-      <div className={styles.votingWrapper}>
-        Voting
+      <div className={styles.rightSide}>
+        <LikesNav /> 
+        <div>Voting content</div>
       </div>
     </div>
     

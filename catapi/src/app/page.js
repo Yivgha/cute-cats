@@ -1,14 +1,14 @@
 import styles from './page.module.css'
-import IndexPage from "./home/page"
-import RightSidePage from './@right/page';
+import HomePage from "./home/page"
+import RightSidePage from './rightSide/page';
 
- const Home = () => {
+ const IndexPage = () => {
   return (
     <main className={`${styles.main} ${styles.wrapper}`}>
-      <IndexPage />
+      <HomePage />
       <RightSidePage />
     </main>
   )
 }
 
-export default Home;
+export default IndexPage;

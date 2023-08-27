@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from "next/image"
-import CustomLink from "@/components/test/Custom"
+import CustomLink from "@/components/CustomLink/Custom"
 import styles from "./Dashboard.module.css"
 import paw from "./../../assets/images/paw-logo.png"
 import textLogo from "./../../assets/images/PetsPaw.png"
@@ -10,10 +10,8 @@ import gallery from "./../../assets/images/images-search.png"
 
 const Dashboard = () => {
   return (
-    <div  className={styles.defaultWrapper}>
-      
+    <>
       <div className={styles.leftWrapper}>
-        
           <div>
           <div className={styles.logoBox}>
             <CustomLink href="/"> {''}
@@ -28,7 +26,7 @@ const Dashboard = () => {
             <div>
               <ul className={styles.mainList}>
                           <li className={styles.listElWrapper}>
-                              <CustomLink href='/voting' prefetch>
+                              <CustomLink href='/voting'>
                               <div className={`${styles.listEl} ${styles.votesEl}`}>
                                   <Image src={votes}  alt="votes element img" width="100px" height="124px"/>
                               </div>
@@ -38,7 +36,7 @@ const Dashboard = () => {
                                   </CustomLink>
                           </li>
                           <li className={styles.listElWrapper}>
-                              <CustomLink href='/breed' prefetch>
+                              <CustomLink href='/breed' >
                               <div className={`${styles.listEl} ${styles.breedsEl}`}>
                                   <Image src={breed}  alt="breed element img" width="100px" height="124px"/>
                               </div>
@@ -48,7 +46,7 @@ const Dashboard = () => {
                                   </CustomLink>
                           </li>
                           <li className={styles.listElWrapper}>
-                              <CustomLink href='/gallery' prefetch>
+                              <CustomLink href='/gallery' >
                               <div className={`${styles.listEl} ${styles.galleryEl}`}>
                                   <Image src={gallery}  alt="gallery element img" width="100px" height="124px"/>
                               </div>
@@ -62,7 +60,7 @@ const Dashboard = () => {
                   </div>
               </div>
           </div>
-    </div>
+    </>
   )
 }
 

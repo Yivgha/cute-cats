@@ -1,19 +1,18 @@
-import React from 'react'
 import Dashboard from '../Dashboard/Dashboard'
 import LikesNav from '../LikesNav/LikesNav'
-import styles from './Breed.module.css'
+import styles from "./Favourite.module.css"
 
-const Breed = () => {
+const Favourite = () => {
   return (
     <div className={styles.wrapper}>
-        <Dashboard />
+       <Dashboard />
       <div className={styles.rightSide}>
-       <LikesNav /> 
-        <div>Breed content</div>
+        Fav Page
+        <LikesNav /> 
+        <div>Fav Page content</div>
       </div>
     </div>
-    
   )
 }
 
-export default Breed
+export default Favourite

@@ -3,7 +3,9 @@ import Gallery from '@/components/Gallery/Gallery'
 
 const GalleryPage = () => {
   return (
-    <><Gallery /></>
+    <div >
+      <Gallery />
+    </div>
   )
 }
 

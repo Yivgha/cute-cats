@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "./RightSide.module.css"
 import Image from 'next/image'
-import girlAndCat from "../../../assets/images/girl-and-pet 1.png"
+import girlAndCat from "./../../assets/images/girl-and-pet 1.png"
 
 const RightSide = () => {
   return (

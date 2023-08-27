@@ -1,11 +1,11 @@
 import styles from './page.module.css'
-import LeftSidePage from './@left/page';
+import IndexPage from "./home/page"
 import RightSidePage from './@right/page';
 
  const Home = () => {
   return (
     <main className={`${styles.main} ${styles.wrapper}`}>
-      <LeftSidePage />
+      <IndexPage />
       <RightSidePage />
     </main>
   )

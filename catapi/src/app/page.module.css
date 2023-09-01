@@ -6,12 +6,13 @@
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 137px;
+  grid-gap: 137px;
   width: 1440px;
   height: 900px;
   padding: 30px 30px 30px 147px;
   background: #F8F8F7;
 }
+
 /* 
 @keyframes rotate {
   from {

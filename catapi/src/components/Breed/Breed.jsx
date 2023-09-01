@@ -81,7 +81,9 @@ const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4H
       <div className={styles.rightSide}>
         <LikesNav /> 
         <>
-          <div className={styles.pageNav}>
+          
+          <div className={styles.breedContent}>
+            <div className={styles.pageNav}>
             <button className={styles.arrowBackBtn} onClick={() => router.push('/')}>
               <Image src={arrowBack} alt='arrow back' width={20} height={20} className={styles.arrowBackImg}/>
             </button>
@@ -113,10 +115,9 @@ const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4H
 </svg>
             </button>
           </div>
-          <div className={styles.breedContent}>
-            Breeds gallery
+            {/* Breeds gallery
             <h1>{option}</h1>
-            <h2>{limit} </h2>
+            <h2>{limit} </h2> */}
            <div className={styles.gridBreed}>
               {values?.map((item) => (
                 <div key={item.id} className={styles.item}>

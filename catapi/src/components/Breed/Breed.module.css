@@ -1,14 +1,15 @@
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 137px;
+    /* gap: 137px; */
     width: 1440px;
     height: 900px;
     padding: 30px 30px 30px 147px;
-    background: #F8F8F7;
+    /* background: #F8F8F7; */
     box-sizing: border-box;
 overflow-x: hidden;
 overflow-y: scroll;
+
 }
 
 .rightSide {
@@ -121,27 +122,30 @@ overflow-y: scroll;
 }
 
 .breedContent{
+width: 680px;
     height: 850px;
-    width: 680px;
     border: 1px solid black;
     overflow-y: scroll;
-    background: #FFF;
     padding: 20px 15px;
+    background: #FFF;
     box-sizing: border-box;
+    border-radius: 20px;
+   
 }
 
 .gridBreed{
     display: grid;
-    grid-gap: 20px 15px;
+    grid-gap: 15px;
     grid-template-columns: repeat(auto-fill, 200px);
-    grid-auto-rows: 200px;
+    grid-auto-rows: 140px;
     grid-auto-flow: dense;
+    justify-content: center;
 }
 .item{
 margin-right: 10px;
 margin-bottom: 10px;
 border-radius: 20px;
-object-fit: fill;
+/* object-fit: fill; */
 flex: 1 0 auto;
 display: flex;
 justify-content: center;

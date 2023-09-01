@@ -1,7 +1,7 @@
 .rightWrapper{
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: relative;
     width: 680px;
         height: 840px;
         border-radius: 20px;

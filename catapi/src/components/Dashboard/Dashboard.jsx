@@ -14,7 +14,7 @@ const Dashboard = () => {
       <div className={styles.leftWrapper}>
           <div>
           <div className={styles.logoBox}>
-            <CustomLink href="/"> {''}
+            <CustomLink href="/" as="style" rel="stylesheet preload prefetch"> {''}
               <Image src={paw} alt="paw logo" width="24px" height="24px" className={styles.logo} />
               <Image src={textLogo} alt="text logo" width="71px" height="24px" />
               </CustomLink>
@@ -26,7 +26,7 @@ const Dashboard = () => {
             <div>
               <ul className={styles.mainList}>
                           <li className={styles.listElWrapper}>
-                              <CustomLink href='/voting'>
+                              <CustomLink href='/voting' as="style" rel="stylesheet preload prefetch">
                               <div className={`${styles.listEl} ${styles.votesEl}`}>
                                   <Image src={votes}  alt="votes element img" width="100px" height="124px"/>
                               </div>
@@ -36,7 +36,7 @@ const Dashboard = () => {
                                   </CustomLink>
                           </li>
                           <li className={styles.listElWrapper}>
-                              <CustomLink href='/breed' >
+                              <CustomLink href='/breed' as="style" rel="stylesheet preload prefetch">
                               <div className={`${styles.listEl} ${styles.breedsEl}`}>
                                   <Image src={breed}  alt="breed element img" width="100px" height="124px"/>
                               </div>
@@ -46,7 +46,7 @@ const Dashboard = () => {
                                   </CustomLink>
                           </li>
                           <li className={styles.listElWrapper}>
-                              <CustomLink href='/gallery' >
+                              <CustomLink href='/gallery' as="style" rel="stylesheet preload prefetch">
                               <div className={`${styles.listEl} ${styles.galleryEl}`}>
                                   <Image src={gallery}  alt="gallery element img" width="100px" height="124px"/>
                               </div>

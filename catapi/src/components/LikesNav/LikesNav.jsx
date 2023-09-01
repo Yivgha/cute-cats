@@ -21,17 +21,17 @@ const LikesNav = () => {
           </div>
           <ul className={styles.navList}>
             <li className={styles.navEl}>
-              <CustomLink href="/likes">
+              <CustomLink href="/likes" as="style" rel="stylesheet preload prefetch">
                 <Image src={likes} alt='smiling face' width="30" height="30" className={styles.navElIcon} />
               </CustomLink>
             </li>
             <li className={styles.navEl}>
-              <CustomLink href="/favourite" >
+              <CustomLink href="/favourite" as="style" rel="stylesheet preload prefetch">
                 <Image src={heart} alt='white heart with red border' width="30" height="30" className={styles.navElIcon} />
               </CustomLink>
           </li>
             <li className={styles.navEl}>
-              <CustomLink href="/dislikes" >
+              <CustomLink href="/dislikes" as="style" rel="stylesheet preload prefetch">
                 <Image src={dislikes} alt='grumpy face' width="30" height="30" className={styles.navElIcon} />
               </CustomLink>
             </li>

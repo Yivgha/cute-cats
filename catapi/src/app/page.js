@@ -4,7 +4,9 @@ import RightSidePage from './rightSide/page';
 
  const IndexPage = () => {
   return (
-    <main className={`${styles.main} ${styles.wrapper}`}>
+    <main
+      className={`${styles.main} ${styles.wrapper}`}
+    >
       <HomePage />
       <RightSidePage />
     </main>

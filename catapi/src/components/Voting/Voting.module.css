@@ -16,7 +16,7 @@
     flex-direction: column;
 }
 
-.votingContent{
+.pageContent{
     padding: 20px;
     border: 1px solid black;
     width: 680px;
@@ -25,7 +25,7 @@
     background: #FFF;
 }
 
-.votingNav {
+.pageNav {
     display: flex;
     flex-direction: row;
     margin-bottom: 20px;

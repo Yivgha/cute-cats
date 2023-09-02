@@ -34,17 +34,26 @@
 .arrowBackBtn{
     border: none;
     outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     width: 40px;
     height: 40px;
-    background-color: #FBE0DC;
+    border-radius: 10px;
+    background: #FBE0DC;
     margin-right: 10px;
 }
 
 .arrowBackImg {
-    fill: #FF868E;
+    color: #FF868E;
 }
-
+.arrowBackBtn:hover{
+   background: #FF868E;
+}
+.arrowBackBtn:hover .arrowBackImg{
+    color: #FFF;
+}
 .pageLabel{
     border-radius: 10px;
     background: #FF868E;
@@ -78,6 +87,7 @@
     
 }
 
+/* Voting icons on image */
 .votingIconsList{
     display: flex;
     flex-direction: row;
@@ -102,14 +112,17 @@
     background: #97EAB9;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    color: #FFF;
 }
 .redIcon{
     background: #FF868E;
+    color: #FFF;
 }
 .yellowIcon{
     background: #FFD280;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    color: #FFF;
 }
 .votingIconBtn{
     border: none;
@@ -117,6 +130,25 @@
     width: 80px;
     height: 80px;
 }
+.votingIconsEl:hover .greenIcon{
+    background-color: #97EAB94D;
+    color: #97EAB9
+}
+.votingIconsEl:hover .redIcon{
+    background-color: #FF868E4D;
+    color: #FF868E;
+}
+.votingIconsEl:hover .yellowIcon {
+    background-color: #FFD2804D;
+    color: #FFD280;
+}
+
+
+.votingIconsEl:active .redIcon {
+    color: #FFFFFF;
+}
+
+/* Log Box */
 .votingLogsBox{
     display: flex;
     flex-direction: column;

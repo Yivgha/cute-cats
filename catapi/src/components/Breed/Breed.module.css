@@ -27,15 +27,27 @@ overflow-y: scroll;
 .arrowBackBtn {
     border: none;
     outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     width: 40px;
     height: 40px;
-    background-color: #FBE0DC;
+    border-radius: 10px;
+    background: #FBE0DC;
     margin-right: 10px;
 }
 
 .arrowBackImg {
-    fill: #FF868E;
+    color: #FF868E;
+}
+
+.arrowBackBtn:hover {
+    background: #FF868E;
+}
+
+.arrowBackBtn:hover .arrowBackImg {
+    color: #FFF;
 }
 
 .pageLabel {
@@ -65,6 +77,7 @@ overflow-y: scroll;
     width: 226px;
     height: 40px;
     border-radius: 10px;
+border-color: #F8F8F7;
     background: #F8F8F7;
     color: #8C8C8C;
         /* font-family: Jost; */
@@ -83,6 +96,7 @@ overflow-y: scroll;
     border-radius: 10px;
     background: #F8F8F7;
     padding: 8px 10px;
+border-color: #F8F8F7;
         outline: none;
         color: #8C8C8C;
             font-family: Jost;
@@ -91,12 +105,19 @@ overflow-y: scroll;
             font-weight: 400;
             line-height: 24px;
 }
+.dropdownBreed:hover, .limitBreed:hover{
+    border-color: #FBE0DC;
+}
 .asc{
     margin-right: 10px;
 }
-
-.asc, .desc{
+.desc {
     margin-right: 0;
+}
+.asc, .desc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     outline: none;
     border: none;
     border-radius: 10px;
@@ -111,14 +132,6 @@ overflow-y: scroll;
     color: #FF868E;
     border: 2px solid #FBE0DC;
     background: #F8F8F7;
-}
-
-.asc:hover svg{
-    fill: #FF868E;
-}
-
-.desc:hover svg{
-    fill: #FF868E;
 }
 
 .breedContent{
@@ -150,8 +163,42 @@ flex: 1 0 auto;
 display: flex;
 justify-content: center;
 align-items: center;
+position: relative;
 }
-
+.imgOverlay{
+    display: none;
+}
+.item:hover .imgOverlay{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background: rgba(255, 134, 142, 0.60);
+}
+.imgOverlayLabel{
+    display: flex;
+        justify-content: center;
+        align-items: center;
+    width: 180px;
+    height: 34px;
+    border-radius: 10px;
+    background: #FFF;
+}
+.imgOverlayText{
+    color: #FF868E;
+    text-align: center;
+        /* font-family: Jost; */
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+}
 .gridImg{
     object-fit: cover;
     border-radius: 20px;

@@ -12,11 +12,22 @@
     width: 470px;
     height: 60px;
     border-radius: 20px;
+    border-color: #FFF;
     background: #FFF;
-    padding: 15px 20px 20px 20px;
+    padding: 15px 10px 15px 20px;
     margin-right: 10px;
 }
 
+.votingInput:hover{
+    border: 2px solid #FBE0DC;
+}
+
+.votingInput:active, .votingInput:focus{
+    border: 2px solid #FF868E;
+}
+.votingInput:active .votingInputText, .votingInput:focus .votingInputText{
+color: #1D1D1D;
+}
 .votingInputText {
     color: #8C8C8C;
     /* font-family: Jost; */
@@ -43,7 +54,6 @@
     width: 20px;
     height: 20px;
     color: #FF868E;
-    fill: currentColor;
     transition: fill 0.2s ease-in-out;
 }
 
@@ -53,9 +63,7 @@
 }
 
 .votingInputIcon:hover .searchIcon{
-   color: #FFFFFF;
-fill: currentColor;
-stroke: currentColor;
+color: #FFFFFF;
 }
 
 .navList {
@@ -81,5 +89,20 @@ stroke: currentColor;
 }
 
 .navElIcon {
-    fill: "#FF868E";
+   color: #FF868E;
+}
+
+.navEl:hover{
+    background: #FBE0DC;
+}
+.navEl:hover .navElIcon{
+    color: #FF868E;
+}
+
+.navEl:active{
+    background: #FF868E;
+}
+
+.navEl:active .navElIcon{
+    color: #FFF;
 }

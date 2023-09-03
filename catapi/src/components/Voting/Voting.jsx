@@ -4,22 +4,74 @@ import styles from "./Voting.module.css";
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
 import { useRouter } from "next/navigation";
+// import like from "../../assets/images/log-like.svg";
+// import dislike from "../../assets/images/log-dislike.svg";
+import LogElement from "../LogElement/LogElement";
 
 const Voting = () => {
   const router = useRouter();
 
   const [img, setImg] = useState("");
+  const [logs, setLogs] = useState([]);
 
   const API_URL = `https://api.thecatapi.com/v1/`;
   const API_KEY =
     "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
 
-  // const fetchOneImg = async() => {
-  //   const url = `${API_URL}images/0XYvRd7oD?api_key=${API_KEY}`
-  //   await fetch(url, { headers: { 'x-api-key': API_KEY } }).then((res) => res.json()).then((data) => setImg(data))
-  //   return img
-  // }
-  // useEffect(()=>{fetchOneImg()}, [])
+  const fetchOneImg = async () => {
+    const url = `${API_URL}images/search?api_key=${API_KEY}`;
+    await fetch(url, { headers: { "x-api-key": API_KEY } })
+      .then((res) => res.json())
+      .then((data) => setImg(data[0]));
+    return img;
+  };
+  useEffect(() => {
+    fetchOneImg();
+  }, []);
+
+  const addVote = async (value) => {
+    const url = `${API_URL}votes?api_key=${API_KEY}`;
+    const body = {
+      image_id: img.id,
+      value,
+    };
+    await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": API_KEY,
+      },
+    }).then((response) => {
+      console.log("Voted");
+      fetchOneImg();
+      showLogs();
+    });
+  };
+
+  const showLogs = async () => {
+    const url = `${API_URL}votes?limit=4&order=DESC&api_key=${API_KEY}`;
+    await fetch(url, {
+      headers: {
+        "x-api-key": API_KEY,
+        "content-type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setLogs(data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    showLogs();
+  }, []);
+
+  console.log(logs);
 
   return (
     <div className={styles.wrapper}>
@@ -54,13 +106,21 @@ const Voting = () => {
             </div>
           </div>
           <div className={styles.votingImgBox}>
-            {/* <Image src={img.url} alt={img.id} width={640} height={360} style={{objectFit: "contain", borderRadius: "20px"}} /> */}
-
+            <img
+              id="image-to-vote-on"
+              src={img.url}
+              alt={img.name}
+              width={640}
+              height={360}
+              style={{ objectFit: "cover", borderRadius: "20px" }}
+            />
             <ul id="vote-options" className={styles.votingIconsList}>
               <li className={`${styles.votingIconsEl} `} key={1}>
                 <button
                   className={`${styles.votingIconBtn} ${styles.greenIcon}`}
-                  onClick={() => {}}
+                  onClick={() => {
+                    addVote(1);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +141,6 @@ const Voting = () => {
                   className={`${styles.votingIconBtn} ${styles.redIcon}`}
                   onClick={() => {}}
                 >
-                 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="30"
@@ -94,13 +153,14 @@ const Voting = () => {
                       fill="currentColor"
                     />
                   </svg>
-                 
                 </button>
               </li>
               <li className={styles.votingIconsEl} key={3}>
                 <button
                   className={`${styles.votingIconBtn} ${styles.yellowIcon}`}
-                  onClick={() => {}}
+                  onClick={() => {
+                    addVote(-1);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -119,35 +179,18 @@ const Voting = () => {
             </ul>
           </div>
           <div className={styles.votingLogsBox}>
-            Logs
-            <ul>
-              <li className={styles.votingLogEl}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div className={styles.votingTime}>19:33</div>
-                  <div>
-                    Image ID:{" "}
-                    <span style={{ fontWeight: "bold", color: "#1D1D1D" }}>
-                      fQSunHvl8
-                    </span>{" "}
-                    was added to Favourites
-                  </div>
-                </div>
-                <div className={styles.votingLogIcon}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="30"
-                    height="30"
-                    viewBox="0 0 30 30"
-                    fill="none"
-                  >
-                    <path
-                      d="M0 15C0 6.71573 6.71573 0 15 0C23.2843 0 30 6.71573 30 15C30 23.2843 23.2843 30 15 30C6.71573 30 0 23.2843 0 15ZM15 2C7.8203 2 2 7.8203 2 15C2 22.1797 7.8203 28 15 28C22.1797 28 28 22.1797 28 15C28 7.8203 22.1797 2 15 2ZM10 12H8V10H10V12ZM22 12H20V10H22V12ZM9.2 16.6L9.8 17.4C12.4 20.8667 17.6 20.8667 20.2 17.4L20.8 16.6L22.4 17.8L21.8 18.6C18.4 23.1333 11.6 23.1333 8.2 18.6L7.6 17.8L9.2 16.6Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </div>
-              </li>
-            </ul>
+            {/* <><p>No votes yet</p></>  */}
+
+            {/* <LogElement log={logs[0]}/> */}
+            
+            {logs?.length != 0 ? (
+              <>
+                <LogElement log={logs[0]} style={{marginTop: "0px"}} />
+                <LogElement log={logs[1]} />
+                <LogElement log={logs[2]} />
+                <LogElement log={logs[3]}/>
+              </>
+            ): (<p>No votes yet</p>)}
           </div>
         </div>
       </div>

@@ -106,7 +106,7 @@ const Voting = () => {
             <button
               className={pageStyles.arrowBackBtn}
               onClick={() => {
-                router.push("/");
+                router.back();
               }}
             >
               <svg

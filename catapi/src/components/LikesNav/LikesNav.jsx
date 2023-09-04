@@ -1,21 +1,44 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import CustomLink from "../CustomLink/Custom";
 import styles from "./LikesNav.module.css";
 
 const LikesNav = () => {
+  const [searchValue, setSearchValue] = useState("");
   const pathname = usePathname();
   const router = useRouter();
+
+  const onHandleSearch = () => {
+    router.push("/search", {
+  query: {location: searchValue }
+});
+    setSearchValue("")
+  };
+
+const handleKeyDown = (event) => {
+   if (event.key === 'Enter'|| event.key === "NumpadEnter") {
+      router.push("/search", {
+  query: {location: searchValue }
+});
+    setSearchValue("")
+  }
+}
+
   return (
     <div className={styles.votingNav}>
       <div className={styles.votingInput}>
         <input
+          name="search"
+          type="text"
+          value={searchValue}
+          onChange={(e) => { setSearchValue(e.target.value) }}
+          onKeyDown={handleKeyDown}
           className={styles.votingInputText}
           placeholder="Search for breeds by name"
         />
-        <button className={styles.votingInputIcon} onClick={()=>{router.push("/search")}}>
+        <button className={styles.votingInputIcon} type="submit"  onClick={onHandleSearch} >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

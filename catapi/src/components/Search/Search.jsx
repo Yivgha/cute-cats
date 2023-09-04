@@ -7,8 +7,16 @@ import styles from "../styles/globalLikes.module.css"
 import pageStyles from "./Search.module.css"
 
 const Search = () => {
-  const router = useRouter();
+    const router = useRouter();
+    const location = router.query;
+    console.log(location);
+    // let query = JSON.parse(router);
+    // const searchValue = JSON.parse(router.query)
+    // const location = useLocation();
+    // const {searchValue} = location.state
 
+    // console.log(query.searchValue);
+    // console.log(typeof searchValue)
   return (
     
     <div className={styles.wrapper}>
@@ -17,7 +25,7 @@ const Search = () => {
         <LikesNav /> 
         <div className={styles.likesContent}>
           <div className={styles.pageNav}>
-             <button className={styles.arrowBackBtn} onClick={() => router.push('/')}>
+             <button className={styles.arrowBackBtn} onClick={() => router.back()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

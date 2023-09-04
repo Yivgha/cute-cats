@@ -12,7 +12,7 @@ const Favourite = () => {
         <LikesNav /> 
         <div className={styles.likesContent}>
           <div className={styles.pageNav}>
-             <button className={styles.arrowBackBtn} onClick={() => router.push('/')}>
+             <button className={styles.arrowBackBtn} onClick={() => router.back()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

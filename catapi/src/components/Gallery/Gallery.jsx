@@ -1,11 +1,13 @@
 "use client"
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import Dashboard from '../Dashboard/Dashboard'
 import LikesNav from '../LikesNav/LikesNav'
 import styles from "./Gallery.module.css"
 import pageStyles from "../styles/navPages.module.css"
 
 const Gallery = () => {
+  const router = useRouter()
   return (
     <div className={pageStyles.wrapper}>
        <Dashboard />
@@ -13,7 +15,7 @@ const Gallery = () => {
         <LikesNav /> 
          <div className={pageStyles.pageContent}>
             <div className={pageStyles.pageNav}>
-            <button className={pageStyles.arrowBackBtn} onClick={() => router.push('/')}>
+            <button className={pageStyles.arrowBackBtn} onClick={() => router.back()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

@@ -81,7 +81,7 @@ const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4H
           
           <div className={pageStyles.pageContent}>
             <div className={pageStyles.pageNav}>
-            <button className={pageStyles.arrowBackBtn} onClick={() => router.push('/')}>
+            <button className={pageStyles.arrowBackBtn} onClick={() => router.back()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

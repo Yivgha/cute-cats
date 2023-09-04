@@ -1,6 +1,7 @@
+"use client"
 import React from 'react'
 import Image from "next/image"
-// import { useLocation } from 'react-router-dom'
+import { usePathname } from 'next/navigation'
 import CustomLink from "@/components/CustomLink/Custom"
 import styles from "./Dashboard.module.css"
 import paw from "./../../assets/images/paw-logo.png"
@@ -10,7 +11,9 @@ import breed from "./../../assets/images/pet-breeds.png"
 import gallery from "./../../assets/images/images-search.png"
 
 const Dashboard = ({splitLocation}) => {
-  
+
+    const pathname = usePathname()
+
   return (
     <>
       <div className={styles.leftWrapper}>
@@ -31,7 +34,7 @@ const Dashboard = ({splitLocation}) => {
                                   className={styles.listElWrapper}
                               >
                                 
-                              <CustomLink href='/voting' as="style" rel="stylesheet">
+                                  <CustomLink href='/voting' as="style" rel="stylesheet" className={ pathname === '/voting' ? `${styles.active}` : ''}>
                               <div className={`${styles.listEl} ${styles.votesEl}`}>
                                   <Image src={votes}  alt="votes element img" width="100px" height="124px"/>
                               </div>
@@ -41,7 +44,7 @@ const Dashboard = ({splitLocation}) => {
                                   </CustomLink>
                           </li>
                           <li className={styles.listElWrapper}>
-                              <CustomLink href='/breed' as="style" rel="stylesheet">
+                              <CustomLink href='/breed' as="style" rel="stylesheet"  className={ pathname === '/breed' ? `${styles.active}` : ''}>
                               <div className={`${styles.listEl} ${styles.breedsEl}`}>
                                   <Image src={breed}  alt="breed element img" width="100px" height="124px"/>
                               </div>
@@ -51,7 +54,7 @@ const Dashboard = ({splitLocation}) => {
                                   </CustomLink>
                           </li>
                           <li className={styles.listElWrapper}>
-                              <CustomLink href='/gallery' as="style" rel="stylesheet preload prefetch">
+                              <CustomLink href='/gallery' as="style" rel="stylesheet"  className={ pathname === '/gallery' ? `${styles.active}` : ''}>
                               <div className={`${styles.listEl} ${styles.galleryEl}`}>
                                   <Image src={gallery}  alt="gallery element img" width="100px" height="124px"/>
                               </div>

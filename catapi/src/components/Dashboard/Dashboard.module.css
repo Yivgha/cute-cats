@@ -129,21 +129,20 @@
     border: 4px solid #FFF;
 }
 
-.listElWrapper:active .listBottom {
+.active .listBottom {
     background: #FBE0DC;
     background: #FF868E;
 }
 
-.listElWrapper:active .listBoxName {
+.active .listBoxName {
     color: #FFFFFF;
 }
 
-.listElWrapper:active .votesEl,
-.listElWrapper:active .galleryEl,
-.listElWrapper:active .breedsEl {
+.active .votesEl,
+.active .galleryEl,
+.active .breedsEl {
     border: 4px solid #FBE0DC;
 }
-
 .listBoxName {
     color: rgb(255, 134, 142);
     text-align: center;

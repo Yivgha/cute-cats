@@ -92,7 +92,7 @@ const Voting = () => {
     showLogs();
   }, []);
 
-  console.log(logs);
+  // console.log(logs);
 
   return (
     <div className={styles.wrapper}>

@@ -1,4 +1,5 @@
 import "./globals.css"
+import {Jost} from "next/font/google"
 
 export const metadata = {
   title: 'Cute cats API',
@@ -7,10 +8,16 @@ export const metadata = {
     icon: './icon.ico',
   },
 }
+const jost = Jost({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jost',
+  weight: ['400', '500']
+});
 
 export default function RootLayout(props) {
   return (
-    <html lang="en">
+    <html lang="en" className={jost.variable}>
       <body>
         {props.children}
       </body>

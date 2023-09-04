@@ -6,6 +6,7 @@ export default function CustomLink({
   children,
   href,
   prefetch = false,
+  preload = false,
   replace = false,
   shallow = false,
   ...props

@@ -8,15 +8,8 @@ import pageStyles from "./Search.module.css"
 
 const Search = () => {
     const router = useRouter();
-    const location = router.query;
-    console.log(location);
-    // let query = JSON.parse(router);
-    // const searchValue = JSON.parse(router.query)
-    // const location = useLocation();
-    // const {searchValue} = location.state
 
-    // console.log(query.searchValue);
-    // console.log(typeof searchValue)
+
   return (
     
     <div className={styles.wrapper}>

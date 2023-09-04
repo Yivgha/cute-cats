@@ -1,10 +1,12 @@
 "use client"
+import { useRouter } from 'next/navigation'
 import Dashboard from '../Dashboard/Dashboard'
 import LikesNav from '../LikesNav/LikesNav'
 import styles from "../styles/globalLikes.module.css"
 import pageStyles from "./Favourite.module.css"
 
 const Favourite = () => {
+  const router = useRouter();
   return (
     <div className={styles.wrapper}>
        <Dashboard />

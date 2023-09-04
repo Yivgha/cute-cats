@@ -11,21 +11,23 @@ const LikesNav = () => {
   const router = useRouter();
 
   const onHandleSearch = () => {
-    router.push("/search", {
-  query: {location: searchValue }
-});
+    router.push("/search");
     setSearchValue("")
   };
 
 const handleKeyDown = (event) => {
    if (event.key === 'Enter'|| event.key === "NumpadEnter") {
-      router.push("/search", {
-  query: {location: searchValue }
-});
+      router.push("/search");
     setSearchValue("")
   }
 }
 
+  const fetchSearch = async () => {
+     const API_URL = `https://api.thecatapi.com/v1/`;
+    const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
+    
+  }
+  
   return (
     <div className={styles.votingNav}>
       <div className={styles.votingInput}>

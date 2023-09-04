@@ -70,7 +70,7 @@
 .pageLabelText {
     color: #FFF;
     text-align: center;
-    /* font-family: Jost; */
+    font-family: var(--font-jost);
     font-size: 20px;
     font-style: normal;
     font-weight: 500;

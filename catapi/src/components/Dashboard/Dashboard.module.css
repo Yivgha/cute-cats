@@ -32,7 +32,7 @@
 
 .title {
     color: #1D1D1D;
-    /* font-family: Jost; */
+    font-family: var(--font-jost);
     font-size: 44px;
     font-weight: 500;
     line-height: 58px;
@@ -41,7 +41,7 @@
 
 .underTitle {
     color: #8C8C8C;
-    /* font-family: Jost; */
+    font-family: var(--font-jost);
     font-size: 20px;
     font-weight: 400;
     margin-bottom: 60px;
@@ -50,7 +50,7 @@
 
 .basicText {
     color: #1D1D1D;
-    /* font-family: Jost; */
+    font-family: var(--font-jost);
     font-size: 20px;
     font-weight: 500;
     line-height: normal;
@@ -146,7 +146,7 @@
 .listBoxName {
     color: rgb(255, 134, 142);
     text-align: center;
-    /* font-family: Jost; */
+font-family: var(--font-jost);
     font-size: 12px;
     font-weight: 500;
     line-height: 16px;

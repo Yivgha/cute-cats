@@ -4,8 +4,10 @@ import Dashboard from '../Dashboard/Dashboard'
 import LikesNav from '../LikesNav/LikesNav'
 import styles from "../styles/globalLikes.module.css"
 import pageStyles from "./Dislikes.module.css"
+import { useRouter } from 'next/navigation'
 
 const Dislikes = () => {
+  const router = useRouter();
   return (
     <div className={styles.wrapper}>
        <Dashboard />
@@ -13,7 +15,7 @@ const Dislikes = () => {
         <LikesNav /> 
         <div className={styles.likesContent}>
           <div className={styles.pageNav}>
-             <button className={styles.arrowBackBtn} onClick={() => router.router.back()}>
+             <button className={styles.arrowBackBtn} onClick={() => router.back()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

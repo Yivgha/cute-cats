@@ -8,7 +8,7 @@
 border-color: #F8F8F7;
     background: #F8F8F7;
     color: #8C8C8C;
-        /* font-family: Jost; */
+        font-family: var(--font-jost);
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
@@ -27,7 +27,7 @@ border-color: #F8F8F7;
 border-color: #F8F8F7;
         outline: none;
         color: #8C8C8C;
-            font-family: Jost;
+            font-family: var(--font-jost);
             font-size: 16px;
             font-style: normal;
             font-weight: 400;
@@ -121,7 +121,7 @@ position: relative;
 .imgOverlayText{
     color: #FF868E;
     text-align: center;
-        /* font-family: Jost; */
+        font-family: var(--font-jost);
         font-size: 16px;
         font-style: normal;
         font-weight: 400;

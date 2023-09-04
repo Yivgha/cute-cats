@@ -107,10 +107,11 @@ margin-right: 10px;
 .active .navElIcon {
     color: #FFF;
 }
-/* .navEl:active{
-    background: #FF868E;
+
+.active .navEl:hover{
+    background-color: #FBE0DC;
 }
 
-.navEl:active .navElIcon{
-    color: #FFF;
-} */
+.active .navEl:hover .navElIcon {
+    color: #FF868E;
+}

@@ -4,8 +4,6 @@ import styles from "./Voting.module.css";
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
 import { useRouter } from "next/navigation";
-// import like from "../../assets/images/log-like.svg";
-// import dislike from "../../assets/images/log-dislike.svg";
 import LogElement from "../LogElement/LogElement";
 
 const Voting = () => {
@@ -15,14 +13,18 @@ const Voting = () => {
   const [logs, setLogs] = useState([]);
 
   const API_URL = `https://api.thecatapi.com/v1/`;
-  const API_KEY =
-    "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
+  const API_KEY ="live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
 
   const fetchOneImg = async () => {
     const url = `${API_URL}images/search?api_key=${API_KEY}`;
-    await fetch(url, { headers: { "x-api-key": API_KEY } })
+    try {
+      await fetch(url, { headers: { "x-api-key": API_KEY } })
       .then((res) => res.json())
       .then((data) => setImg(data[0]));
+    } catch (error) {
+      console.log(error.message);
+    }
+    
     return img;
   };
   useEffect(() => {
@@ -44,10 +46,29 @@ const Voting = () => {
       },
     }).then((response) => {
       console.log("Voted");
-      fetchOneImg();
       showLogs();
+      fetchOneImg();
     });
   };
+
+  const addToFav = async () => {
+    const url = `${API_URL}favourites?api_key=${API_KEY}`;
+    const body = {
+      image_id: img.id
+    };
+    await fetch(url,  {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": API_KEY,
+      },
+    }).then((response) => {
+      console.log("added to favourite");
+      showLogs();
+      fetchOneImg();
+    });
+  }
 
   const showLogs = async () => {
     const url = `${API_URL}votes?limit=4&order=DESC&api_key=${API_KEY}`;
@@ -139,7 +160,7 @@ const Voting = () => {
               <li className={styles.votingIconsEl} key={2}>
                 <button
                   className={`${styles.votingIconBtn} ${styles.redIcon}`}
-                  onClick={() => {}}
+                  onClick={() => {addToFav()}}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

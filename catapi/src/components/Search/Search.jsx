@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation'
 import Dashboard from '../Dashboard/Dashboard'
 import LikesNav from '../LikesNav/LikesNav'
 import styles from "../styles/globalLikes.module.css"
-import pageStyles from "./Like.module.css"
+import pageStyles from "./Search.module.css"
 
-const Like = () => {
+const Search = () => {
   const router = useRouter();
 
   return (
@@ -33,7 +33,7 @@ const Like = () => {
               </svg>
             </button>
             <div className={styles.pageLabel}>
-              <p className={styles.pageLabelText}>Likes</p>
+              <p className={styles.pageLabelText}>Search</p>
             </div>
           </div>
           <div>
@@ -47,4 +47,4 @@ const Like = () => {
   )
 }
 
-export default Like
+export default Search

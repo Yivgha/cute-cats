@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import CustomLink from "../CustomLink/Custom";
 import styles from "./LikesNav.module.css";
 
 const LikesNav = () => {
   const pathname = usePathname();
-
+  const router = useRouter();
   return (
     <div className={styles.votingNav}>
       <div className={styles.votingInput}>
@@ -14,7 +15,7 @@ const LikesNav = () => {
           className={styles.votingInputText}
           placeholder="Search for breeds by name"
         />
-        <button className={styles.votingInputIcon}>
+        <button className={styles.votingInputIcon} onClick={()=>{router.push("/search")}}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

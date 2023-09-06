@@ -9,7 +9,7 @@ import {
 const initialState = {
   searchResults: [],
   limit: 10,
-  order: "default asc",
+  order: "asc",
   status: "idle",
 };
 

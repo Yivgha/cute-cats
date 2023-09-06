@@ -24,10 +24,11 @@ export const fetchAllValues = createAsyncThunk(
 
 export const fetchByLimit = createAsyncThunk(
     "search/fetchByLimit",
-    async (limit) => {
+    async (limit, order) => {
         const params = {
-    api_key: API_KEY,
-    limit: limit,
+        api_key: API_KEY,
+        limit: limit,
+        order: order
   };
         const url = `${API_URL}/breeds`;
         const response = await axios.get(url, {params});

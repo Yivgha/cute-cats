@@ -90,7 +90,7 @@ const order = useSelector(selectOrder)
               <p className={pageStyles.pageLabelText}>Breeds</p>
             </div>
         
-            <select name="breeds" value={option} multiple={false}
+            <select name="breeds" multiple={false} defaultValue={"All breeds"}
                 onChange={(e) => { setOption(e.target.value)}} className={styles.dropdownBreed}>
                 <option key={0} id="all" name="All breeds" value="All breeds">All breeds</option>
                 {res?.map((opt) => <option key={opt.id} id={opt.id}>{opt.name}</option>)}
@@ -122,21 +122,39 @@ const order = useSelector(selectOrder)
             </button>
             </div>
     <div className={styles.breedContent}>       
-            <h1>{option}</h1>
-           <div className={styles.gridBreed}>
-              {res?.map((item) => (
-                <div key={item.id} className={styles.item}>
-                {/* <img key={item.id} src={item.image.url} alt={item.name}
+              <h1>{option}</h1>
+              
+              <div className={styles.gridBreed}>
+                
+                {option !== "All breeds" ? (res?.map((item) => {
+                if (item.name === option) {
+                  // console.log(item);
+                  return (<div key={item.id} className={styles.item}>
+                <img key={item.id} src={item.image.url} alt={item.name}
                 className={styles.gridImg}
-                  /> */}
-                  {item.name}
+                  />
+                  {/* {item.name} */}
+                  <div className={styles.imgOverlay}>
+                    <div className={styles.imgOverlayLabel}>
+                      <p className={styles.imgOverlayText}>{item.name}</p>
+                    </div>
+                  </div>
+             </div>)
+                  }
+                })) : (res?.map((item) => (
+                <div key={item.id} className={styles.item}>
+                <img key={item.id} src={item.image.url} alt={item.name}
+                className={styles.gridImg}
+                  />
+                  {/* {item.name} */}
                   <div className={styles.imgOverlay}>
                     <div className={styles.imgOverlayLabel}>
                       <p className={styles.imgOverlayText}>{item.name}</p>
                     </div>
                   </div>
              </div>
-              ))}
+              )))}
+              
               
               </div>
               </div> 

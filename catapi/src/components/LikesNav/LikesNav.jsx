@@ -1,32 +1,83 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Store from "@/reducers/store";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useDebounce } from "use-debounce";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllValues } from "@/api/catapi";
+import { selectRES, myStatus } from "@/reducers/searchReducer";
 import CustomLink from "../CustomLink/Custom";
 import styles from "./LikesNav.module.css";
 
 const LikesNav = () => {
   const [searchValue, setSearchValue] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [debouncedText] = useDebounce(searchValue, 500);
+
+  const [allVal, setAllVal] = useState([])
+
   const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch();
+ const state = Store.getState();
+  const res = useSelector(selectRES)
+  const status = useSelector(myStatus)
 
-  const onHandleSearch = () => {
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchAllValues());
+    }
+  }, [status, dispatch]);
+
+  // console.log(state);
+  
+const API_URL = `https://api.thecatapi.com/v1/`;
+  const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
+
+  const onHandleSearch = async() => {
     router.push("/search");
-    setSearchValue("")
+    fetchSearch();
   };
 
-const handleKeyDown = (event) => {
+const handleKeyDown = async(event) => {
    if (event.key === 'Enter'|| event.key === "NumpadEnter") {
-      router.push("/search");
-    setSearchValue("")
+    router.push("/search");
+     fetchSearch();
   }
 }
 
+
   const fetchSearch = async () => {
-     const API_URL = `https://api.thecatapi.com/v1/`;
-    const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
+    // dispatch(fetchAllValues());
+    // setAllVal(state);
+    console.log("this is state", state, "this is res", res);
+
     
+    const sliceID = debouncedText.toLowerCase();
+
+    let filteredName = allVal.filter((name) => {
+      if (name.name.toLowerCase().includes(sliceID)) {
+        return name.id
+      } else {
+        console.log("Change your search word");
+      }
+    });
+
+    const url = `${API_URL}images/search?breed_ids=${filteredName[0]?.id}&limit=10&api_key=${API_KEY}`
+
+  try {
+     await fetch(url, { headers: { "x-api-key": API_KEY } })
+      .then((res) => res.json())
+      .then((data) => {
+        setSearchResult(data);
+        
+      });
+    } catch (error) {
+      console.log(error.message);
+    };
   }
+
   
   return (
     <div className={styles.votingNav}>

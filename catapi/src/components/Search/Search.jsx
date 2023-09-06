@@ -1,6 +1,9 @@
 "use client"
 import React from 'react'
+import Store from '@/reducers/store';
 import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux';
+import {selectRES} from "@/reducers/searchReducer"
 import Dashboard from '../Dashboard/Dashboard'
 import LikesNav from '../LikesNav/LikesNav'
 import styles from "../styles/globalLikes.module.css"
@@ -9,6 +12,11 @@ import pageStyles from "./Search.module.css"
 const Search = () => {
     const router = useRouter();
 
+  const res = useSelector(selectRES)
+  
+  // console.log("stored res", res);
+
+ 
 
   return (
     
@@ -40,12 +48,17 @@ const Search = () => {
           <div>
             <div className={styles.notFoundBox}>
               <p className={styles.notFoundText}>No items found</p>
-            </div>
+                      </div>
+            <div>Search results for: </div>
+            <div>gallery value: </div>
+                      {/* <img src={url} alt={name} width="300px" height="300px"/> */}
           </div>
         </div>
       </div>
     </div>
   )
 }
+
+
 
 export default Search

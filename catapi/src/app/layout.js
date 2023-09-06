@@ -1,5 +1,8 @@
+"use client"
 import "./globals.css"
-import {Jost} from "next/font/google"
+import { Jost } from "next/font/google"
+import { Provider } from 'react-redux';
+import Store from '@/reducers/store';
 
 export const metadata = {
   title: 'Cute cats API',
@@ -17,10 +20,12 @@ const jost = Jost({
 
 export default function RootLayout(props) {
   return (
+    <Provider store={Store}>
     <html lang="en" className={jost.variable}>
       <body>
         {props.children}
       </body>
-    </html>
+      </html>
+      </Provider>
   )
 }

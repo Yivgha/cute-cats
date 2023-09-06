@@ -1,11 +1,15 @@
 "use client"
 import React, {useEffect, useState} from 'react'
 import { useRouter } from 'next/navigation';
-// import { fetchAll, fetchCatByBreed, fetchByLimit } from '@/api/catapi';
+import { useDispatch, useSelector } from 'react-redux';
+import { myStatus, selectRES } from '@/reducers/searchReducer';
+import { fetchAllValues } from '@/api/catapi';
+
 import Dashboard from '../Dashboard/Dashboard'
 import LikesNav from '../LikesNav/LikesNav'
 import styles from './Breed.module.css'
 import pageStyles from "../styles/navPages.module.css"
+
 
 const defaultLimit = [
   { name: 5, id: "1", description: "Limit: 5" },
@@ -18,24 +22,30 @@ const Breed = () => {
   const router = useRouter();
 const API_URL = 'https://api.thecatapi.com/v1/breeds';
 const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT"
-  const [images, setImages] = useState([]);
+
   const [values, setValues] = useState([]);
   const [option, setOption] = useState("All breeds");
   const [limit, setLimit] = useState(10);
   const [order, setOrder] = useState("asc");
-  const [id, setId] = useState(0)
+
+  const dispatch = useDispatch()
+  const status = useSelector(myStatus)
+  const res = useSelector(selectRES)
 
 
-  const fetchAll = async () => {
-    const url = `${API_URL}?limit=${limit}&order=${order}&api_key=${API_KEY}`
 
-    await fetch(url, { headers: { 'x-api-key': API_KEY } }).then((res) => res.json()).then((data) => {  setValues(data) });
-    console.log("got all");
-  };
+  // const fetchAll = async () => {
+  //   const url = `${API_URL}?limit=${limit}&order=${order}&api_key=${API_KEY}`
+
+  //   await fetch(url, { headers: { 'x-api-key': API_KEY } }).then((res) => res.json()).then((data) => {  setValues(data) });
+  //   console.log("got all");
+  // };
 
   useEffect(() => {
-   ()=>(fetchAll())
-  }, []);
+   if (status === "idle") {
+      dispatch(fetchAllValues());
+    }
+  }, [status, dispatch]);
 
 
   const fetchBreedByLimit = async () => {
@@ -102,8 +112,8 @@ const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4H
         
             <select name="breeds" value={option} multiple={false}
                 onChange={(e) => { setOption(e.target.value)}} className={styles.dropdownBreed}>
-                <option key={0} id="all" name="all">All breeds</option>
-                {values?.map((opt) => <option key={opt.id} id={opt.id}>{opt.name}</option>)}
+                <option key={0} id="all" name="All breeds" value="All breeds">All breeds</option>
+                {res?.map((opt) => <option key={opt.id} id={opt.id}>{opt.name}</option>)}
               </select>
               
            
@@ -121,11 +131,11 @@ const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4H
   <path d="M14.8047 29.319V10H16.1381V29.319L19 26.1995L19.9428 27.2272L15.9428 31.5872C15.8178 31.7234 15.6482 31.8 15.4714 31.8C15.2946 31.8 15.125 31.7234 15 31.5872L11 27.2272L11.9428 26.1995L14.8047 29.319ZM26.1381 11.4533C25.0335 11.4533 24.1381 12.4294 24.1381 13.6333V15.8133H28.1381V13.6333C28.1381 12.4294 27.2426 11.4533 26.1381 11.4533ZM28.1381 17.2667V20.1733H29.4714V13.6333C29.4714 11.6267 27.979 10 26.1381 10C24.2971 10 22.8047 11.6267 22.8047 13.6333V20.1733H24.1381V17.2667H28.1381ZM22.8047 21.6267H26.8047C28.2775 21.6267 29.4714 22.928 29.4714 24.5333C29.4714 25.4015 29.1222 26.1807 28.5686 26.7133C29.1222 27.2459 29.4714 28.0252 29.4714 28.8933C29.4714 30.4986 28.2775 31.8 26.8047 31.8H22.8047V21.6267ZM26.8047 25.9867C27.5411 25.9867 28.1381 25.336 28.1381 24.5333C28.1381 23.7307 27.5411 23.08 26.8047 23.08H24.1381V25.9867H26.8047ZM24.1381 27.44H26.8047C27.5411 27.44 28.1381 28.0907 28.1381 28.8933C28.1381 29.696 27.5411 30.3467 26.8047 30.3467H24.1381V27.44Z" fill="currentColor"/>
 </svg>
             </button>
-          </div>
+            </div>
+    <div className={styles.breedContent}>       
             <h1>{option}</h1>
-           <p>ID {id}</p> 
            <div className={styles.gridBreed}>
-              {values?.map((item) => (
+              {res?.map((item) => (
                 <div key={item.id} className={styles.item}>
                 <img key={item.id} src={item.image.url} alt={item.name}
                 className={styles.gridImg}
@@ -138,10 +148,10 @@ const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4H
              </div>
               ))}
               
-              
               </div>
-           
-            </div>
+              </div> 
+           </div>
+            
           
         </>
       </div>

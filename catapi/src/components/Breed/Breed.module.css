@@ -82,7 +82,7 @@ border-color: #F8F8F7;
 margin-right: 10px;
 margin-bottom: 10px;
 border-radius: 20px;
-/* object-fit: fill; */
+object-fit: fill;
 flex: 1 0 auto;
 display: flex;
 justify-content: center;
@@ -165,8 +165,7 @@ position: relative;
 .item:nth-child(12n), .item:nth-child(13n), .item:nth-child(15n),
 .item:nth-child(16n),
 .item:nth-child(17n),
-.item:nth-child(20n)
- {
+.item:nth-child(20n){
     grid-row: span 1;
     grid-column: span 1;
 }

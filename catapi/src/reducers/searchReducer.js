@@ -14,6 +14,7 @@ const initialState = {
   limit: 10,
   order: "asc",
   status: "idle",
+  selectedIdData: [],
 };
 
 export const searchSlice = createSlice({
@@ -25,6 +26,9 @@ export const searchSlice = createSlice({
     },
     setSearchTextRes: (state, action) => {
       state.inputSearchRes = action.payload
+    },
+    getOneCat: (state, action) => {
+      state.selectedIdData = action.payload
     }
   },
   extraReducers(builder) {
@@ -98,12 +102,13 @@ export const searchSlice = createSlice({
   },
 });
 
-export const {setSearchText, setSearchTextRes } = searchSlice.actions;
+export const {setSearchText, setSearchTextRes, getOneCat } = searchSlice.actions;
 export const selectRES = (state) => state.search.searchResults;
 export const myStatus = (state) => state.search.status;
 export const byLimit = (state) => state.search.limit;
 export const selectOrder = (state) => state.search.order;
 export const byInput = (state) => state.search.inputSearchRes;
 export const inpVal = (state) => state.search.inpSearch;
+export const oneCatData = (state) => state.search.selectedIdData
 
 export default searchSlice.reducer;

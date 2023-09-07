@@ -23,10 +23,8 @@ const LikesNav = () => {
   const status = useSelector(myStatus)
 
   useEffect(() => {
-    if (status === "idle") {
       dispatch(fetchAllValues());
-    }
-  }, [status, dispatch]);
+  }, [ dispatch]);
 
 
   const onHandleSearch = async () => {

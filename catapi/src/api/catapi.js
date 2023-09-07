@@ -74,7 +74,7 @@ export const fetchByName = createAsyncThunk(
         const params = {
             api_key: API_KEY,
             limit: 1,
-            // order: order,
+            order: "ASC",
            breed_ids: sliceID,
         };
         const url = `${API_URL}/images/search`;

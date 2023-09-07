@@ -12,8 +12,8 @@ export const fetchAllValues = createAsyncThunk(
         const params = {
             api_key: API_KEY,
             order: "ASC",
-            // limit: 67,
-            limit: 40,
+            limit: 67,
+            // limit: 40,
         }
         const url = `${API_URL}/breeds`
 

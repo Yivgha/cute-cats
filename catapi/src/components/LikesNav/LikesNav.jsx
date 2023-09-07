@@ -12,12 +12,10 @@ import styles from "./LikesNav.module.css";
 
 const LikesNav = () => {
   const [searchValue, setSearchValue] = useState("");
-  // const [searchResult, setSearchResult] = useState([]);
   const [debouncedText] = useDebounce(searchValue, 300);
 
-  const [filtID, setFiltID] = useState("")
 
-  const pathname = usePathname();
+ const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
   const state = Store.getState();
@@ -30,78 +28,32 @@ const LikesNav = () => {
     }
   }, [status, dispatch]);
 
-  // console.log(state);
-
 
   const onHandleSearch = async () => {
-   
-      // dispatch(fetchByName())
     router.push("/search");
-    
-    
   };
 
   const handleKeyDown = async (event) => {
     if (event.key === 'Enter' || event.key === "NumpadEnter") {
       router.push("/search");
-      // dispatch(fetchByName())
     }
   }
-  // console.log("res atsearch", res);
+
   const sliceID = debouncedText.toLowerCase();
-    console.log("slice", sliceID);
-  
+  // console.log("slice", sliceID);
 
   const gettingFilt = () => {
-
-   const data = res.filter((item) => 
-      item.name.toLowerCase().includes(sliceID.toLowerCase())
-    //  item.id === sliceID
-    );
-    dispatch(setSearchTextRes(data))
-    console.log("data", data);
-    // setFiltID(data[0]?.id)
+    if (sliceID !== "") {
+      const data = res.filter((item) =>
+        item.name.toLowerCase().includes(sliceID.toLowerCase())
+      );
+      dispatch(setSearchTextRes(data))
+      // console.log("data", data);
+      // setFiltID(data[0]?.id)}
+    }
   }
   
 useEffect(()=>{gettingFilt()},[debouncedText])
-     
-
-    
-  //   setFiltID(filteredID[0])
-  //     console.log(filtID);
-  // }, [sliceID])
-
-
-
-  // const fetchSearch = async () => {
-  //   // dispatch(fetchAllValues());
-  //   // setAllVal(state);
-  //   console.log("this is state", state, "this is res", res);
-
-    
-  //   const sliceID = debouncedText.toLowerCase();
-
-  //   let filteredName = allVal.filter((name) => {
-  //     if (name.name.toLowerCase().includes(sliceID)) {
-  //       return name.id
-  //     } else {
-  //       console.log("Change your search word");
-  //     }
-  //   });
-
-  //   const url = `${API_URL}images/search?breed_ids=${filteredName[0]?.id}&limit=10&api_key=${API_KEY}`
-
-  // try {
-  //    await fetch(url, { headers: { "x-api-key": API_KEY } })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setSearchResult(data);
-        
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   };
-  // }
 
   
   return (

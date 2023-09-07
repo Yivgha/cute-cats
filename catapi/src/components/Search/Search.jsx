@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import Store from "@/reducers/store";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { selectRES, byInput, inpVal } from "@/reducers/searchReducer";
+import {useSelector } from "react-redux";
+import {byInput, inpVal } from "@/reducers/searchReducer";
+
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
 import styles from "../styles/globalLikes.module.css";
@@ -13,11 +13,11 @@ import pageStyles from "../Breed/Breed.module.css"
 const Search = () => {
   const router = useRouter();
 
-  const res = useSelector(selectRES);
   const inp = useSelector(byInput);
   const searchedItem = useSelector(inpVal);
 
-  // console.log("inp", inp);
+
+
 
   return (
     <div className={styles.wrapper}>
@@ -49,7 +49,7 @@ const Search = () => {
             </div>
           </div>
          
-          {inp && (
+          {inp?.length > 0 && searchedItem !== "" ? (
             <div className={pageStyles.breedContent}>
               <p className={searchStyles.basicText}>Search results for: {" "}<span className={searchStyles.boldText}>{searchedItem} </span>
               </p>
@@ -74,9 +74,11 @@ const Search = () => {
               
               </div>
               </div>
-          )}
+          ): (<div className={styles.notFoundBox}>
+              <p className={styles.notFoundText}>No items found</p>
+            </div>)}
 
-          {!inp && (
+          {inp?.length === 0 && (
             <div className={styles.notFoundBox}>
               <p className={styles.notFoundText}>No items found</p>
             </div>

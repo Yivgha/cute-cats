@@ -1,0 +1,16 @@
+.basicText{
+    color: #8C8C8C;
+        font-family: var(--font-jost);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: normal;
+        margin-bottom: 20px;
+}
+
+.boldText{
+    color: #1D1D1D;
+        font-family: var(--font-jost);
+        font-size: 20px;
+        font-weight: 500;
+        line-height: normal;
+}

@@ -11,8 +11,9 @@ export const fetchAllValues = createAsyncThunk(
     async () => {
         const params = {
             api_key: API_KEY,
-            limit: 10,
             order: "ASC",
+            // limit: 67,
+            limit: 40,
         }
         const url = `${API_URL}/breeds`
 
@@ -63,6 +64,22 @@ export const fetchDescended = createAsyncThunk(
         const url = `${API_URL}/breeds`;
         const response = await axios.get(url, {params});
         console.log("descended", response.data);
+        return response.data
+    }
+)
+
+export const fetchByName = createAsyncThunk(
+    "search/fetchByName",
+    async (sliceID) => {
+        const params = {
+            api_key: API_KEY,
+            limit: 1,
+            // order: order,
+           breed_ids: sliceID,
+        };
+        const url = `${API_URL}/images/search`;
+        const response = await axios.get(url, { params });
+        console.log("get by name", response.data);
         return response.data
     }
 )

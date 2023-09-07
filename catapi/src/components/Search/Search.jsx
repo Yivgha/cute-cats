@@ -1,32 +1,35 @@
-"use client"
-import React from 'react'
-import Store from '@/reducers/store';
-import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux';
-import {selectRES} from "@/reducers/searchReducer"
-import Dashboard from '../Dashboard/Dashboard'
-import LikesNav from '../LikesNav/LikesNav'
-import styles from "../styles/globalLikes.module.css"
-import pageStyles from "./Search.module.css"
+"use client";
+import React from "react";
+import Store from "@/reducers/store";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { selectRES, byInput, inpVal } from "@/reducers/searchReducer";
+import Dashboard from "../Dashboard/Dashboard";
+import LikesNav from "../LikesNav/LikesNav";
+import styles from "../styles/globalLikes.module.css";
+import searchStyles from "./Search.module.css";
+import pageStyles from "../Breed/Breed.module.css"
 
 const Search = () => {
-    const router = useRouter();
+  const router = useRouter();
 
-  const res = useSelector(selectRES)
-  
-  // console.log("stored res", res);
+  const res = useSelector(selectRES);
+  const inp = useSelector(byInput);
+  const searchedItem = useSelector(inpVal);
 
- 
+  // console.log("inp", inp);
 
   return (
-    
     <div className={styles.wrapper}>
-       <Dashboard />
+      <Dashboard />
       <div className={styles.rightSide}>
-        <LikesNav /> 
+        <LikesNav />
         <div className={styles.likesContent}>
           <div className={styles.pageNav}>
-             <button className={styles.arrowBackBtn} onClick={() => router.back()}>
+            <button
+              className={styles.arrowBackBtn}
+              onClick={() => router.back()}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -45,20 +48,43 @@ const Search = () => {
               <p className={styles.pageLabelText}>Search</p>
             </div>
           </div>
-          <div>
+         
+          {inp && (
+            <div className={pageStyles.breedContent}>
+              <p className={searchStyles.basicText}>Search results for: {" "}<span className={searchStyles.boldText}>{searchedItem} </span>
+              </p>
+            <div className={pageStyles.gridBreed}>
+              
+             
+                {inp?.map((item) => (
+                  <div key={item.id} className={pageStyles.item}>
+                    <img
+                      src={item?.image?.url}
+                      key={item.id}
+                      alt={item.name}
+                      className={pageStyles.gridImg}
+                    />
+                   <div className={pageStyles.imgOverlay}>
+                    <div className={pageStyles.imgOverlayLabel}>
+                      <p className={pageStyles.imgOverlayText}>{item.name}</p>
+                    </div>
+                  </div>
+                  </div>
+                ))}
+              
+              </div>
+              </div>
+          )}
+
+          {!inp && (
             <div className={styles.notFoundBox}>
               <p className={styles.notFoundText}>No items found</p>
-                      </div>
-            <div>Search results for: </div>
-            <div>gallery value: </div>
-                      {/* <img src={url} alt={name} width="300px" height="300px"/> */}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-
-
-export default Search
+export default Search;

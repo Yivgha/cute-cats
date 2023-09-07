@@ -27,6 +27,7 @@ const Breed = () => {
 
   // const [values, setValues] = useState([]);
   const [option, setOption] = useState("All breeds");
+  const [baseLimit, setBaseLimit] = useState(defaultLimit[1].name)
 
   
   const dispatch = useDispatch()
@@ -58,7 +59,7 @@ const order = useSelector(selectOrder)
   // useEffect(() => { fetchBreedById() }, []);
 
   
-  useEffect(() => { console.log("limit store", state, "limit", limit, "order", order); }, [order, limit, state]);
+  useEffect(() => { console.log("use effect only", "limit store", state, "limit", limit, "order", order); }, [order, limit, state]);
 
 
 
@@ -90,7 +91,7 @@ const order = useSelector(selectOrder)
               <p className={pageStyles.pageLabelText}>Breeds</p>
             </div>
         
-            <select name="breeds" multiple={false} defaultValue={"All breeds"}
+            <select name="breeds" multiple={false} defaultValue={{name: "All breeds"}}
                 onChange={(e) => { setOption(e.target.value)}} className={styles.dropdownBreed}>
                 <option key={0} id="all" name="All breeds" value="All breeds">All breeds</option>
                 {res?.map((opt) => <option key={opt.id} id={opt.id}>{opt.name}</option>)}
@@ -100,10 +101,10 @@ const order = useSelector(selectOrder)
            {/* change value for description instead of name */}
               <select name="limit"
                 id="limit"
-                defaultValue={defaultLimit[1].name}
+                defaultValue={baseLimit}
                 multiple={false}
                 onChange={(e) => {
-                  setOption(e.target.value); dispatch(fetchByLimit(e.target.value));
+                  setBaseLimit(e.target.value); dispatch(fetchByLimit(e.target.value));
                     
                 }} className={styles.limitBreed}>
               {defaultLimit?.map((opt, i) => <option key={opt.id}>{opt.name}</option>)}
@@ -130,7 +131,7 @@ const order = useSelector(selectOrder)
                 if (item.name === option) {
                   // console.log(item);
                   return (<div key={item.id} className={styles.item}>
-                <img key={item.id} src={item.image.url} alt={item.name}
+                <img key={item.id}  src={item?.image?.url} alt={item.name}
                 className={styles.gridImg}
                   />
                   {/* {item.name} */}
@@ -143,9 +144,7 @@ const order = useSelector(selectOrder)
                   }
                 })) : (res?.map((item) => (
                 <div key={item.id} className={styles.item}>
-                <img key={item.id} src={item.image.url} alt={item.name}
-                className={styles.gridImg}
-                  />
+                    <img key={item.id}  src={item?.image?.url} alt={item.name} className={styles.gridImg} />
                   {/* {item.name} */}
                   <div className={styles.imgOverlay}>
                     <div className={styles.imgOverlayLabel}>

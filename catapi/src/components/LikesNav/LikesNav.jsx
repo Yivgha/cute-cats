@@ -5,22 +5,22 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllValues} from "@/api/catapi";
-import { selectRES, myStatus } from "@/reducers/searchReducer";
+import { fetchAllValues, fetchByName} from "@/api/catapi";
+import { selectRES, myStatus, setSearchText, setSearchTextRes } from "@/reducers/searchReducer";
 import CustomLink from "../CustomLink/Custom";
 import styles from "./LikesNav.module.css";
 
 const LikesNav = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
-  const [debouncedText] = useDebounce(searchValue, 500);
+  // const [searchResult, setSearchResult] = useState([]);
+  const [debouncedText] = useDebounce(searchValue, 300);
 
-  const [allVal, setAllVal] = useState([])
+  const [filtID, setFiltID] = useState("")
 
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
- const state = Store.getState();
+  const state = Store.getState();
   const res = useSelector(selectRES)
   const status = useSelector(myStatus)
 
@@ -31,52 +31,77 @@ const LikesNav = () => {
   }, [status, dispatch]);
 
   // console.log(state);
-  
-const API_URL = `https://api.thecatapi.com/v1/`;
-  const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
 
-  const onHandleSearch = async() => {
+
+  const onHandleSearch = async () => {
+   
+      // dispatch(fetchByName())
     router.push("/search");
-    fetchSearch();
+    
+    
   };
 
-const handleKeyDown = async(event) => {
-   if (event.key === 'Enter'|| event.key === "NumpadEnter") {
-    router.push("/search");
-     fetchSearch();
+  const handleKeyDown = async (event) => {
+    if (event.key === 'Enter' || event.key === "NumpadEnter") {
+      router.push("/search");
+      // dispatch(fetchByName())
+    }
   }
-}
+  // console.log("res atsearch", res);
+  const sliceID = debouncedText.toLowerCase();
+    console.log("slice", sliceID);
+  
 
+  const gettingFilt = () => {
 
-  const fetchSearch = async () => {
-    // dispatch(fetchAllValues());
-    // setAllVal(state);
-    console.log("this is state", state, "this is res", res);
+   const data = res.filter((item) => 
+      item.name.toLowerCase().includes(sliceID.toLowerCase())
+    //  item.id === sliceID
+    );
+    dispatch(setSearchTextRes(data))
+    console.log("data", data);
+    // setFiltID(data[0]?.id)
+  }
+  
+useEffect(()=>{gettingFilt()},[debouncedText])
+     
 
     
-    const sliceID = debouncedText.toLowerCase();
+  //   setFiltID(filteredID[0])
+  //     console.log(filtID);
+  // }, [sliceID])
 
-    let filteredName = allVal.filter((name) => {
-      if (name.name.toLowerCase().includes(sliceID)) {
-        return name.id
-      } else {
-        console.log("Change your search word");
-      }
-    });
 
-    const url = `${API_URL}images/search?breed_ids=${filteredName[0]?.id}&limit=10&api_key=${API_KEY}`
 
-  try {
-     await fetch(url, { headers: { "x-api-key": API_KEY } })
-      .then((res) => res.json())
-      .then((data) => {
-        setSearchResult(data);
+  // const fetchSearch = async () => {
+  //   // dispatch(fetchAllValues());
+  //   // setAllVal(state);
+  //   console.log("this is state", state, "this is res", res);
+
+    
+  //   const sliceID = debouncedText.toLowerCase();
+
+  //   let filteredName = allVal.filter((name) => {
+  //     if (name.name.toLowerCase().includes(sliceID)) {
+  //       return name.id
+  //     } else {
+  //       console.log("Change your search word");
+  //     }
+  //   });
+
+  //   const url = `${API_URL}images/search?breed_ids=${filteredName[0]?.id}&limit=10&api_key=${API_KEY}`
+
+  // try {
+  //    await fetch(url, { headers: { "x-api-key": API_KEY } })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setSearchResult(data);
         
-      });
-    } catch (error) {
-      console.log(error.message);
-    };
-  }
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   };
+  // }
 
   
   return (
@@ -86,7 +111,7 @@ const handleKeyDown = async(event) => {
           name="search"
           type="text"
           value={searchValue}
-          onChange={(e) => { setSearchValue(e.target.value) }}
+          onChange={(e) => { setSearchValue(e.target.value), dispatch(setSearchText(e.target.value)); }}
           onKeyDown={handleKeyDown}
           className={styles.votingInputText}
           placeholder="Search for breeds by name"

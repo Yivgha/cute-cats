@@ -4,8 +4,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 const API_URL = 'https://api.thecatapi.com/v1';
 const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT"
 
-
-//later change limit to full
 export const fetchAllValues = createAsyncThunk(
     "search/fetchAllValues",
     async () => {
@@ -13,7 +11,6 @@ export const fetchAllValues = createAsyncThunk(
             api_key: API_KEY,
             order: "ASC",
             limit: 67,
-            // limit: 40,
         }
         const url = `${API_URL}/breeds`
 
@@ -84,13 +81,28 @@ export const fetchByName = createAsyncThunk(
     }
 )
 
+export const fetchImgToVote = createAsyncThunk(
+    "search/fetchImgToVote",
+    async () => {
+        const params = {
+            api_key: API_KEY,
+            limit: 1,
+        };
+        const url = `${API_URL}images/search`;
+        const response = await axios.get(url, { params });
+        return response.data
+    }
+)
 
-// export const fetchCatByBreed = async (limit, order, breedId) => {
-//     const url = `${API_URL}/images/search?limit=${limit}&order=${order}&api_key=${API_KEY}&breed_ids=${breedId}`
-//     await fetch(url, { headers: { 'x-api-key': API_KEY } });
-
-//     if (!res.ok) {
-//         throw new Error(res.status)
+//  const fetchOneImg = async () => {
+//     const url = `${API_URL}images/search?api_key=${API_KEY}`;
+//     try {
+//       await fetch(url, { headers: { "x-api-key": API_KEY } })
+//       .then((res) => res.json())
+//       .then((data) => setImg(data[0]));
+//     } catch (error) {
+//       console.log(error.message);
 //     }
-//     return res.json();
-// };
+    
+//     return img;
+//   };

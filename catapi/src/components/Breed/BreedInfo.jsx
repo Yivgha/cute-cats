@@ -12,9 +12,7 @@ import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 const BreedInfo = () => {
   const router = useRouter();
-  const pathname = usePathname();
-  const inp = useSelector(byInput);
-  const searchedItem = useSelector(inpVal);
+
     const oneCat = useSelector(oneCatData);
     const status = useSelector(myStatus)
  
@@ -28,7 +26,7 @@ const BreedInfo = () => {
         }
     }, [status, oneCat])
 
-  console.log(oneCat);
+
   return (
     <div className={styles.wrapper}>
       <Dashboard />

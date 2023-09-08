@@ -1,12 +1,11 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import {
   myStatus,
   selectRES,
   byLimit,
-  selectOrder,
   getOneCat,
 } from "@/reducers/searchReducer";
 import {
@@ -15,14 +14,13 @@ import {
   fetchAscended,
   fetchDescended,
 } from "@/api/catapi";
-import Store from "@/reducers/store";
+
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
 import styles from "./Breed.module.css";
 import pageStyles from "../styles/navPages.module.css";
-import CustomLink from "../CustomLink/Custom";
-import BreedInfo from "./BreedInfo";
 
 const defaultLimit = [
   { name: 5, id: "1", description: "Limit: 5" },
@@ -38,20 +36,25 @@ const Breed = () => {
   const [baseLimit, setBaseLimit] = useState(defaultLimit[1].name);
 
   const dispatch = useDispatch();
-  const state = Store.getState();
 
   const status = useSelector(myStatus);
   const res = useSelector(selectRES);
   const limit = useSelector(byLimit);
-  const order = useSelector(selectOrder);
+
 
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchAllValues());
     }
+    if (status === "loading") {
+            Loading.hourglass("Loading...");
+        }
+        if (status === "succeeded") {
+            Loading.remove()
+        }
   }, [status, dispatch]);
 
-  // useEffect(() => { console.log("use effect only", "limit store", state, "limit", limit, "order", order); }, [order, limit, state]);
+  
 
   return (
     <div className={pageStyles.wrapper}>

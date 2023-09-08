@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+import React, {useEffect} from "react";
 import { useRouter } from "next/navigation";
-import {useSelector } from "react-redux";
-import {byInput, inpVal } from "@/reducers/searchReducer";
+import {useSelector, useDispatch } from "react-redux";
+import { byInput, inpVal, getOneCat, myStatus } from "@/reducers/searchReducer";
+
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
@@ -12,10 +14,21 @@ import pageStyles from "../Breed/Breed.module.css"
 
 const Search = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const inp = useSelector(byInput);
   const searchedItem = useSelector(inpVal);
-
+  const status = useSelector(myStatus)
+ 
+    
+    useEffect(() => {
+        if (status === "loading") {
+            Loading.hourglass("Loading...");
+        }
+        if (status === "succeeded") {
+            Loading.remove()
+        }
+    }, [status, inp])
 
 
 
@@ -57,7 +70,11 @@ const Search = () => {
               
              
                 {inp?.map((item) => (
-                  <div key={item.id} className={pageStyles.item}>
+                  <div key={item.id} className={pageStyles.item}  onClick={() => {
+                              dispatch(getOneCat(item));
+                      console.log("set item", item);
+                      router.push("/breed/info")
+                            }}>
                     <img
                       src={item?.image?.url}
                       key={item.id}

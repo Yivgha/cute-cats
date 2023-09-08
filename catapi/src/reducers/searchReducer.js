@@ -5,6 +5,7 @@ import {
   fetchAscended,
   fetchDescended,
   fetchByName,
+  fetchImgToVote,
 } from "../api/catapi";
 
 const initialState = {
@@ -95,6 +96,18 @@ export const searchSlice = createSlice({
       .addCase(fetchByName.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.inputSearchRes = action.payload;
+      })
+      .addCase(fetchImgToVote.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchImgToVote.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchImgToVote.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.searchResults = action.payload;
       })
       .addDefaultCase((state, action) => {
         initialState;

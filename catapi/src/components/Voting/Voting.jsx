@@ -1,36 +1,56 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchImgToVote } from "@/api/catapi";
+import { myStatus, selectRES } from "@/reducers/searchReducer";
+
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
+
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
 import LogElement from "../LogElement/LogElement";
 import pageStyles from "../styles/navPages.module.css"
 import styles from "./Voting.module.css";
 
+
 const Voting = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [img, setImg] = useState("");
   const [logs, setLogs] = useState([]);
 
+  const status = useSelector(myStatus);
+  const results = useSelector(selectRES);
+
   const API_URL = `https://api.thecatapi.com/v1/`;
   const API_KEY ="live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
 
-  const fetchOneImg = async () => {
-    const url = `${API_URL}images/search?api_key=${API_KEY}`;
-    try {
-      await fetch(url, { headers: { "x-api-key": API_KEY } })
-      .then((res) => res.json())
-      .then((data) => setImg(data[0]));
-    } catch (error) {
-      console.log(error.message);
-    }
+  // const fetchOneImg = async () => {
+  //   const url = `${API_URL}images/search?api_key=${API_KEY}`;
+  //   try {
+  //     await fetch(url, { headers: { "x-api-key": API_KEY } })
+  //     .then((res) => res.json())
+  //     .then((data) => setImg(data[0]));
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
     
-    return img;
-  };
+  //   return img;
+  // };
   useEffect(() => {
-    fetchOneImg();
+     if (status === "loading") {
+            Loading.hourglass("Loading...");
+        }
+        if (status === "succeeded") {
+            Loading.remove()
+    }    
   }, []);
+  useEffect(() => {
+    if (status === "idle") {
+    fetchImgToVote();
+  }},[])
 
   const addVote = async (value) => {
     const url = `${API_URL}votes?api_key=${API_KEY}`;
@@ -48,7 +68,7 @@ const Voting = () => {
     }).then((response) => {
       console.log("Voted");
       showLogs();
-      fetchOneImg();
+      fetchImgToVote();
     });
   };
 
@@ -67,7 +87,7 @@ const Voting = () => {
     }).then((response) => {
       console.log("added to favourite");
       showLogs();
-      fetchOneImg();
+      fetchImgToVote();
     });
   }
 
@@ -130,8 +150,8 @@ const Voting = () => {
           <div className={styles.votingImgBox}>
             <img
               id="image-to-vote-on"
-              src={img.url}
-              alt={img.name}
+              src={results[0]?.image?.url}
+              alt={results[0]?.name}
               width={640}
               height={360}
               style={{ objectFit: "cover", borderRadius: "20px" }}

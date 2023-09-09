@@ -5,6 +5,21 @@ const LogElement = ({ log }) => {
   let likeLabel;
   let likeSVG;
 
+  const niceData = () => {
+    const hours = new Date(log?.created_at).getHours();
+    const minutes = new Date(log?.created_at).getMinutes();
+    if (hours < 10 && minutes > 10) {
+      return `0${hours}: ${minutes}`
+    } else if (hours > 10 && minutes < 10) {
+      return `${hours}: 0${minutes}`;
+    } else if (hours < 10 && minutes < 10) {
+      return `0${hours}: 0${minutes}`
+     }
+    else {
+      return `${hours}: ${minutes}`
+    }
+  }
+
   if (log?.value === -1) {
     likeLabel = "Dislike";
     likeSVG = (
@@ -54,12 +69,11 @@ const LogElement = ({ log }) => {
       </svg>
     );
   }
-
+  
   return (
     <div className={styles.votingLogEl}>
       <div className={styles.votingTime}>
-        {new Date(log?.created_at).getUTCHours()}:
-        {new Date(log?.created_at).getUTCMinutes()}
+        {niceData()}
       </div>
       <div
         style={{

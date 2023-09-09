@@ -6,6 +6,9 @@ import {
   fetchDescended,
   fetchByName,
   fetchImgToVote,
+  fetchAddVote,
+  fetchAllVotes,
+  fetchAddToFav,
 } from "../api/catapi";
 
 const initialState = {
@@ -15,7 +18,9 @@ const initialState = {
   limit: 10,
   order: "asc",
   status: "idle",
-  selectedIdData: [],
+  selectedIdData: {},
+  imgForVote: [],
+ votingLogs: [],
 };
 
 export const searchSlice = createSlice({
@@ -107,7 +112,41 @@ export const searchSlice = createSlice({
       })
       .addCase(fetchImgToVote.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.searchResults = action.payload;
+        state.imgForVote = action.payload;
+      })
+      .addCase(fetchAddVote.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAddVote.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchAddVote.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
+      .addCase(fetchAllVotes.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAllVotes.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchAllVotes.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.votingLogs = action.payload;
+      })
+      .addCase(fetchAddToFav.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAddToFav.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchAddToFav.fulfilled, (state, action) => {
+        state.status = "succeeded";
       })
       .addDefaultCase((state, action) => {
         initialState;
@@ -122,6 +161,8 @@ export const byLimit = (state) => state.search.limit;
 export const selectOrder = (state) => state.search.order;
 export const byInput = (state) => state.search.inputSearchRes;
 export const inpVal = (state) => state.search.inpSearch;
-export const oneCatData = (state) => state.search.selectedIdData
+export const oneCatData = (state) => state.search.selectedIdData;
+export const imgForVote = (state) => state.search.imgForVote[0];
+export const votingLogs = (state) => state.search.votingLogs;
 
 export default searchSlice.reducer;

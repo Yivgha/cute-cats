@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchImgToVote } from "@/api/catapi";
-import { myStatus, selectRES } from "@/reducers/searchReducer";
+import { fetchImgToVote, fetchAddVote, fetchAllVotes } from "@/api/catapi";
+import { myStatus, imgForVote, votingLogs } from "@/reducers/searchReducer";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
@@ -12,33 +12,19 @@ import LikesNav from "../LikesNav/LikesNav";
 import LogElement from "../LogElement/LogElement";
 import pageStyles from "../styles/navPages.module.css"
 import styles from "./Voting.module.css";
+import globStyles from "../styles/globalLikes.module.css"
 
 
 const Voting = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [img, setImg] = useState("");
-  const [logs, setLogs] = useState([]);
-
   const status = useSelector(myStatus);
-  const results = useSelector(selectRES);
+  const oneImg = useSelector(imgForVote);
+  const newLogs = useSelector(votingLogs);
 
-  const API_URL = `https://api.thecatapi.com/v1/`;
-  const API_KEY ="live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT";
+  console.log("logs", newLogs);
 
-  // const fetchOneImg = async () => {
-  //   const url = `${API_URL}images/search?api_key=${API_KEY}`;
-  //   try {
-  //     await fetch(url, { headers: { "x-api-key": API_KEY } })
-  //     .then((res) => res.json())
-  //     .then((data) => setImg(data[0]));
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-    
-  //   return img;
-  // };
   useEffect(() => {
      if (status === "loading") {
             Loading.hourglass("Loading...");
@@ -47,73 +33,18 @@ const Voting = () => {
             Loading.remove()
     }    
   }, []);
+
   useEffect(() => {
     if (status === "idle") {
-    fetchImgToVote();
-  }},[])
-
-  const addVote = async (value) => {
-    const url = `${API_URL}votes?api_key=${API_KEY}`;
-    const body = {
-      image_id: img.id,
-      value,
-    };
-    await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": API_KEY,
-      },
-    }).then((response) => {
-      console.log("Voted");
-      showLogs();
-      fetchImgToVote();
-    });
-  };
-
-  const addToFav = async () => {
-    const url = `${API_URL}favourites?api_key=${API_KEY}`;
-    const body = {
-      image_id: img.id
-    };
-    await fetch(url,  {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": API_KEY,
-      },
-    }).then((response) => {
-      console.log("added to favourite");
-      showLogs();
-      fetchImgToVote();
-    });
-  }
-
-  const showLogs = async () => {
-    const url = `${API_URL}votes?limit=4&order=DESC&api_key=${API_KEY}`;
-    await fetch(url, {
-      headers: {
-        "x-api-key": API_KEY,
-        "content-type": "application/json",
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setLogs(data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+    dispatch(fetchImgToVote())
+    }
+  }, [status, dispatch])
+  
   useEffect(() => {
-    showLogs();
-  }, []);
+  dispatch(fetchAllVotes())
+}, [oneImg])
 
-  // console.log(logs);
+
 
   return (
     <div className={pageStyles.wrapper}>
@@ -150,8 +81,8 @@ const Voting = () => {
           <div className={styles.votingImgBox}>
             <img
               id="image-to-vote-on"
-              src={results[0]?.image?.url}
-              alt={results[0]?.name}
+              src={oneImg?.url}
+              alt={oneImg?.id}
               width={640}
               height={360}
               style={{ objectFit: "cover", borderRadius: "20px" }}
@@ -161,7 +92,9 @@ const Voting = () => {
                 <button
                   className={`${styles.votingIconBtn} ${styles.greenIcon}`}
                   onClick={() => {
-                    addVote(1);
+                    dispatch(fetchAddVote({ image_id: oneImg?.id, value: 1 }));
+                    dispatch(fetchAllVotes())
+                    dispatch(fetchImgToVote())
                   }}
                 >
                   <svg
@@ -181,7 +114,7 @@ const Voting = () => {
               <li className={styles.votingIconsEl} key={2}>
                 <button
                   className={`${styles.votingIconBtn} ${styles.redIcon}`}
-                  onClick={() => {addToFav()}}
+                  onClick={() => {}}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +134,9 @@ const Voting = () => {
                 <button
                   className={`${styles.votingIconBtn} ${styles.yellowIcon}`}
                   onClick={() => {
-                    addVote(-1);
+                    dispatch(fetchAddVote({ image_id: oneImg?.id, value: -1 }));
+                    dispatch(fetchAllVotes());
+                    dispatch(fetchImgToVote());
                   }}
                 >
                   <svg
@@ -221,18 +156,18 @@ const Voting = () => {
             </ul>
           </div>
           <div className={styles.votingLogsBox}>
-            {/* <><p>No votes yet</p></>  */}
 
-            {/* <LogElement log={logs[0]}/> */}
             
-            {logs?.length != 0 ? (
+            {newLogs?.length != 0 ? (
               <>
-                <LogElement log={logs[0]} style={{marginTop: "0px"}} />
-                <LogElement log={logs[1]} />
-                <LogElement log={logs[2]} />
-                <LogElement log={logs[3]}/>
+                {newLogs.map((logEl) => (
+                  <LogElement key={logEl.id} log={logEl} />
+                ))}
+
               </>
-            ): (<p>No votes yet</p>)}
+            ) : (<div className={globStyles.notFoundBox}>
+              <p className={globStyles.notFoundText}>No votes found</p>
+            </div>)}
           </div>
         </div>
       </div>

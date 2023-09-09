@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllValues, fetchByName} from "@/api/catapi";
+import { fetchAllValues} from "@/api/catapi";
 import { selectRES, myStatus, setSearchText, setSearchTextRes } from "@/reducers/searchReducer";
 import CustomLink from "../CustomLink/Custom";
 import styles from "./LikesNav.module.css";
@@ -23,8 +23,9 @@ const LikesNav = () => {
   const status = useSelector(myStatus)
 
   useEffect(() => {
-      dispatch(fetchAllValues());
-  }, [ dispatch]);
+    if(status === "idle"){
+      dispatch(fetchAllValues());}
+  }, [ dispatch, status]);
 
 
   const onHandleSearch = async () => {
@@ -38,7 +39,6 @@ const LikesNav = () => {
   }
 
   const sliceID = debouncedText.toLowerCase();
-  // console.log("slice", sliceID);
 
   const gettingFilt = () => {
     if (sliceID !== "") {
@@ -46,8 +46,6 @@ const LikesNav = () => {
         item.name.toLowerCase().includes(sliceID.toLowerCase())
       );
       dispatch(setSearchTextRes(data))
-      // console.log("data", data);
-      // setFiltID(data[0]?.id)}
     }
   }
   

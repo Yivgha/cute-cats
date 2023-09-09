@@ -1,31 +1,34 @@
 "use client";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import { byInput, inpVal, oneCatData, myStatus } from "@/reducers/searchReducer";
+import {
+  byInput,
+  inpVal,
+  oneCatData,
+  myStatus,
+} from "@/reducers/searchReducer";
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
 import styles from "../styles/globalLikes.module.css";
 import infoStyles from "./BreedInfo.module.css";
 // import { Carousel } from "react-responsive-carousel";
-import { Loading } from 'notiflix/build/notiflix-loading-aio';
+import { Loading } from "notiflix/build/notiflix-loading-aio";
 
 const BreedInfo = () => {
   const router = useRouter();
 
-    const oneCat = useSelector(oneCatData);
-    const status = useSelector(myStatus)
- 
-    
-    useEffect(() => {
-        if (status === "loading") {
-            Loading.hourglass("Loading...");
-        }
-        if (status === "succeeded") {
-            Loading.remove()
-        }
-    }, [status, oneCat])
+  const oneCat = useSelector(oneCatData);
+  const status = useSelector(myStatus);
 
+  useEffect(() => {
+    if (status === "loading") {
+      Loading.hourglass("Loading...");
+    }
+    if (status === "succeeded") {
+      Loading.remove();
+    }
+  }, [status, oneCat]);
 
   return (
     <div className={styles.wrapper}>
@@ -60,46 +63,61 @@ const BreedInfo = () => {
               <p className={styles.pageLabelText}>{oneCat.id}</p>
             </div>
           </div>
-                  <div className={infoStyles.imageBox}>
-                      <img src={oneCat?.image?.url} alt={oneCat.name} width="100%" height="100%" style={{objectFit: "cover", borderRadius: "20px"}} />
-          </div>
-          <div className={infoStyles.infoBox}>
-            <div className={infoStyles.infoTitleBox}>
-              <p className={infoStyles.infoBoxTitle}>{oneCat.name}</p>
-            </div>
-            <div className={infoStyles.infoBoxDescription}>
-              <span className={infoStyles.infoBoxDescSpan}>
-                {oneCat.description}
-                          </span>
-                          <div className={infoStyles.overlayDesc}>
-                  {oneCat.description}
+         
+          {oneCat && status === "succeeded" ? (
+            <>
+              <div className={infoStyles.imageBox}>
+                <img
+                  src={oneCat?.image?.url}
+                  alt={oneCat.name}
+                  width="100%"
+                  height="100%"
+                  style={{ objectFit: "cover", borderRadius: "20px" }}
+                />
+              </div>
+              <div className={infoStyles.infoBox}>
+                <div className={infoStyles.infoTitleBox}>
+                  <p className={infoStyles.infoBoxTitle}>{oneCat.name}</p>
                 </div>
-            </div>
-            <div className={infoStyles.detailedInfo}>
-              <div className={infoStyles.leftSideBox}>
-                <p className={infoStyles.detailTitle}>Temperament:</p>
-                <span
-                  className={`${infoStyles.detailDescr} ${infoStyles.tempWrap}`}
-                >
-                  {oneCat.temperament}
-                </span>
+                <div className={infoStyles.infoBoxDescription}>
+                  <span className={infoStyles.infoBoxDescSpan}>
+                    {oneCat.description}
+                  </span>
+                  <div className={infoStyles.overlayDesc}>
+                    {oneCat.description}
+                  </div>
+                </div>
+                <div className={infoStyles.detailedInfo}>
+                  <div className={infoStyles.leftSideBox}>
+                    <p className={infoStyles.detailTitle}>Temperament:</p>
+                    <span
+                      className={`${infoStyles.detailDescr} ${infoStyles.tempWrap}`}
+                    >
+                      {oneCat.temperament}
+                    </span>
+                  </div>
+                  <div className={infoStyles.rightSideBox}>
+                    <p className={infoStyles.detailDescr}>
+                      <span className={infoStyles.detailTitle}>Origin:</span>
+                      {oneCat.origin}
+                    </p>
+                    <p className={infoStyles.detailDescr}>
+                      <span className={infoStyles.detailTitle}>Weight:</span>
+                      {oneCat?.weight?.metric}
+                    </p>
+                    <p className={infoStyles.detailDescr}>
+                      <span className={infoStyles.detailTitle}>Life span</span>
+                      {oneCat.life_span}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className={infoStyles.rightSideBox}>
-                <p className={infoStyles.detailDescr}>
-                  <span className={infoStyles.detailTitle}>Origin:</span>
-                  {oneCat.origin}
-                </p>
-                <p className={infoStyles.detailDescr}>
-                                  <span className={infoStyles.detailTitle}>Weight:</span>
-                                  {oneCat?.weight?.metric}
-                </p>
-                <p className={infoStyles.detailDescr}>
-                  <span className={infoStyles.detailTitle}>Life span</span>
-                  {oneCat.life_span}
-                </p>
-              </div>
+            </>
+          ) : (
+            <div className={styles.notFoundBox}>
+              <p className={styles.notFoundText}>No items found</p>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

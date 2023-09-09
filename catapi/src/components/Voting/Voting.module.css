@@ -2,10 +2,10 @@
     width: 640px;
     height: 360px;
     border-radius: 20px;
-    background-color: #1D1D1D;
+    background-color: #FBE0DC;
     margin-bottom: 52px;
     position: relative;
-    
+    border-color: #FBE0DC;
 }
 
 /* Voting icons on image */
@@ -76,6 +76,6 @@
     width: 640px;
     height: 270px;
     border-radius: 10px;
-    border: 1px solid black;
+    border: 2px solid #FBE0DC;
     overflow-y: scroll;
 }

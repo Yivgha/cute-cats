@@ -88,21 +88,64 @@ export const fetchImgToVote = createAsyncThunk(
             api_key: API_KEY,
             limit: 1,
         };
-        const url = `${API_URL}images/search`;
+        const url = `${API_URL}/images/search`;
         const response = await axios.get(url, { params });
+        console.log("get img for vote", response.data);
+        return response.data
+    }
+);
+
+export const fetchAddVote = createAsyncThunk(
+    "search/fetchAddVote",
+    async ({image_id, value}) => {
+        const url = `${API_URL}/votes?api_key=${API_KEY}`;
+        const response = await axios.post(url, {image_id: image_id, value: value });
+        console.log("voted", response.data);
         return response.data
     }
 )
 
-//  const fetchOneImg = async () => {
-//     const url = `${API_URL}images/search?api_key=${API_KEY}`;
-//     try {
-//       await fetch(url, { headers: { "x-api-key": API_KEY } })
-//       .then((res) => res.json())
-//       .then((data) => setImg(data[0]));
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-    
-//     return img;
-//   };
+export const fetchAllVotes = createAsyncThunk(
+    "search/fetchAllVotes",
+    async () => {
+        const params = {
+            api_key: API_KEY,
+            limit: 10,
+            order: "DESC"
+        };
+        const url = `${API_URL}/votes`;
+        const response = await axios.get(url, { params });
+        console.log("got logs", response.data);
+        return response.data
+    }
+)
+
+export const fetchAddToFav = createAsyncThunk(
+    "search/fetchAddToFav",
+    async ({image_id}) => {
+        const url = `${API_URL}/favourites?api_key=${API_KEY}`;
+        const response = await axios.post(url, { image_id: image_id });
+        console.log("added to fav");
+        return response.data
+    }
+)
+
+
+ // const addToFav = async () => {
+  //   const url = `${API_URL}favourites?api_key=${API_KEY}`;
+  //   const body = {
+  //     image_id: img.id
+  //   };
+  //   await fetch(url,  {
+  //     method: "POST",
+  //     body: JSON.stringify(body),
+  //     headers: {
+  //       "content-type": "application/json",
+  //       "x-api-key": API_KEY,
+  //     },
+  //   }).then((response) => {
+  //     console.log("added to favourite");
+  //     showLogs();
+  //     fetchImgToVote();
+  //   });
+  // }

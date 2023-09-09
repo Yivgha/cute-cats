@@ -94,12 +94,6 @@ const Search = () => {
           ): (<div className={styles.notFoundBox}>
               <p className={styles.notFoundText}>No items found</p>
             </div>)}
-
-          {/* {inp?.length === 0 && (
-            <div className={styles.notFoundBox}>
-              <p className={styles.notFoundText}>No items found</p>
-            </div>
-          )} */}
         </div>
       </div>
     </div>

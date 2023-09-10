@@ -43,16 +43,16 @@ const Breed = () => {
 
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchAllValues());
-    }
+    // if (status === "idle") {
+    //   dispatch(fetchAllValues());
+    // }
     if (status === "loading") {
             Loading.hourglass("Loading...");
         }
         if (status === "succeeded") {
             Loading.remove()
         }
-  }, [status, dispatch]);
+  }, [status]);
 
   
 

@@ -110,7 +110,7 @@ export const fetchAllVotes = createAsyncThunk(
     async () => {
         const params = {
             api_key: API_KEY,
-            limit: 10,
+            limit: 3,
             order: "DESC"
         };
         const url = `${API_URL}/votes`;
@@ -125,11 +125,25 @@ export const fetchAddToFav = createAsyncThunk(
     async ({image_id}) => {
         const url = `${API_URL}/favourites?api_key=${API_KEY}`;
         const response = await axios.post(url, { image_id: image_id });
-        console.log("added to fav");
+        console.log("added to fav", response.data);
         return response.data
     }
 )
 
+export const fetchAllFavs = createAsyncThunk(
+    "search/fetchAllFavs",
+    async () => {
+        const params = {
+            api_key: API_KEY,
+            limit: 3,
+            order: "DESC"
+        };
+        const url = `${API_URL}/favourites`;
+        const response = await axios.get(url, { params });
+        console.log("got favs", response.data);
+        return response.data
+    }
+)
 
  // const addToFav = async () => {
   //   const url = `${API_URL}favourites?api_key=${API_KEY}`;

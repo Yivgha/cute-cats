@@ -18,14 +18,14 @@ const LikesNav = () => {
  const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
-  const state = Store.getState();
+  // const state = Store.getState();
   const res = useSelector(selectRES)
   const status = useSelector(myStatus)
 
   useEffect(() => {
     if(status === "idle"){
       dispatch(fetchAllValues());}
-  }, [ dispatch, status]);
+  }, [ status]);
 
 
   const onHandleSearch = async () => {

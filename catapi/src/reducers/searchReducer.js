@@ -9,6 +9,7 @@ import {
   fetchAddVote,
   fetchAllVotes,
   fetchAddToFav,
+  fetchAllFavs,
 } from "../api/catapi";
 
 const initialState = {
@@ -20,7 +21,8 @@ const initialState = {
   status: "idle",
   selectedIdData: {},
   imgForVote: [],
- votingLogs: [],
+  votingLogs: [],
+ favLogs: []
 };
 
 export const searchSlice = createSlice({
@@ -148,6 +150,18 @@ export const searchSlice = createSlice({
       .addCase(fetchAddToFav.fulfilled, (state, action) => {
         state.status = "succeeded";
       })
+      .addCase(fetchAllFavs.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAllFavs.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchAllFavs.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.favLogs = action.payload;
+      })
       .addDefaultCase((state, action) => {
         initialState;
       });
@@ -164,5 +178,6 @@ export const inpVal = (state) => state.search.inpSearch;
 export const oneCatData = (state) => state.search.selectedIdData;
 export const imgForVote = (state) => state.search.imgForVote[0];
 export const votingLogs = (state) => state.search.votingLogs;
+export const favouritesLogs = (state) => state.search.favLogs;
 
 export default searchSlice.reducer;

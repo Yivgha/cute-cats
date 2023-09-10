@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchImgToVote, fetchAddVote, fetchAllVotes } from "@/api/catapi";
-import { myStatus, imgForVote, votingLogs } from "@/reducers/searchReducer";
+import { fetchImgToVote, fetchAddVote, fetchAllVotes, fetchAddToFav, fetchAllFavs } from "@/api/catapi";
+import { myStatus, imgForVote, votingLogs, favouritesLogs } from "@/reducers/searchReducer";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
@@ -21,9 +21,19 @@ const Voting = () => {
 
   const status = useSelector(myStatus);
   const oneImg = useSelector(imgForVote);
-  const newLogs = useSelector(votingLogs);
 
-  console.log("logs", newLogs);
+  const newLogs = useSelector(votingLogs);
+  const allFavs = useSelector(favouritesLogs);
+
+  const mixedArr = newLogs.concat(allFavs)
+
+  console.log("votinglogs", newLogs);
+  console.log("fav logs", allFavs);
+  console.log("mixed", mixedArr);
+
+// listC.sort((a, b) => {
+//     return (a.dateTime_ISO || a.dateTime).localeCompare((b.dateTime_ISO || b.dateTime))
+// })
 
   useEffect(() => {
      if (status === "loading") {
@@ -38,10 +48,11 @@ const Voting = () => {
     if (status === "idle") {
     dispatch(fetchImgToVote())
     }
-  }, [status, dispatch])
+  }, [status])
   
   useEffect(() => {
-  dispatch(fetchAllVotes())
+    dispatch(fetchAllVotes());
+    dispatch(fetchAllFavs())
 }, [oneImg])
 
 
@@ -93,8 +104,8 @@ const Voting = () => {
                   className={`${styles.votingIconBtn} ${styles.greenIcon}`}
                   onClick={() => {
                     dispatch(fetchAddVote({ image_id: oneImg?.id, value: 1 }));
-                    dispatch(fetchAllVotes())
-                    dispatch(fetchImgToVote())
+                    // dispatch(fetchAllVotes());
+                    dispatch(fetchImgToVote());
                   }}
                 >
                   <svg
@@ -114,7 +125,11 @@ const Voting = () => {
               <li className={styles.votingIconsEl} key={2}>
                 <button
                   className={`${styles.votingIconBtn} ${styles.redIcon}`}
-                  onClick={() => {}}
+                  onClick={() => {
+                    dispatch(fetchAddToFav({ image_id: oneImg?.id }));
+                    // dispatch(fetchAllFavs());
+                    dispatch(fetchImgToVote());
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +150,7 @@ const Voting = () => {
                   className={`${styles.votingIconBtn} ${styles.yellowIcon}`}
                   onClick={() => {
                     dispatch(fetchAddVote({ image_id: oneImg?.id, value: -1 }));
-                    dispatch(fetchAllVotes());
+                    // dispatch(fetchAllVotes());
                     dispatch(fetchImgToVote());
                   }}
                 >
@@ -158,9 +173,9 @@ const Voting = () => {
           <div className={styles.votingLogsBox}>
 
             
-            {newLogs?.length != 0 ? (
+            {mixedArr?.length != 0 ? (
               <>
-                {newLogs.map((logEl) => (
+                {mixedArr.sort((a,b) => b.created_at > a.created_at ? 1 : -1).map((logEl) => (
                   <LogElement key={logEl.id} log={logEl} />
                 ))}
 

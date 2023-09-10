@@ -27,13 +27,10 @@ const Voting = () => {
 
   const mixedArr = newLogs.concat(allFavs)
 
-  console.log("votinglogs", newLogs);
-  console.log("fav logs", allFavs);
-  console.log("mixed", mixedArr);
+  // console.log("votinglogs", newLogs);
+  // console.log("fav logs", allFavs);
+  // console.log("mixed", mixedArr);
 
-// listC.sort((a, b) => {
-//     return (a.dateTime_ISO || a.dateTime).localeCompare((b.dateTime_ISO || b.dateTime))
-// })
 
   useEffect(() => {
      if (status === "loading") {
@@ -48,12 +45,12 @@ const Voting = () => {
     if (status === "idle") {
     dispatch(fetchImgToVote())
     }
-  }, [status])
+  }, [status, dispatch])
   
   useEffect(() => {
-    dispatch(fetchAllVotes());
-    dispatch(fetchAllFavs())
-}, [oneImg])
+    dispatch(fetchAllVotes({limit: 3}));
+    dispatch(fetchAllFavs({limit: 3}))
+}, [oneImg, dispatch])
 
 
 
@@ -104,7 +101,6 @@ const Voting = () => {
                   className={`${styles.votingIconBtn} ${styles.greenIcon}`}
                   onClick={() => {
                     dispatch(fetchAddVote({ image_id: oneImg?.id, value: 1 }));
-                    // dispatch(fetchAllVotes());
                     dispatch(fetchImgToVote());
                   }}
                 >
@@ -127,7 +123,6 @@ const Voting = () => {
                   className={`${styles.votingIconBtn} ${styles.redIcon}`}
                   onClick={() => {
                     dispatch(fetchAddToFav({ image_id: oneImg?.id }));
-                    // dispatch(fetchAllFavs());
                     dispatch(fetchImgToVote());
                   }}
                 >
@@ -150,7 +145,6 @@ const Voting = () => {
                   className={`${styles.votingIconBtn} ${styles.yellowIcon}`}
                   onClick={() => {
                     dispatch(fetchAddVote({ image_id: oneImg?.id, value: -1 }));
-                    // dispatch(fetchAllVotes());
                     dispatch(fetchImgToVote());
                   }}
                 >

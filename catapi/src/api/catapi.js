@@ -107,11 +107,11 @@ export const fetchAddVote = createAsyncThunk(
 
 export const fetchAllVotes = createAsyncThunk(
     "search/fetchAllVotes",
-    async () => {
+    async ({limit}) => {
         const params = {
             api_key: API_KEY,
-            limit: 3,
-            order: "DESC"
+            limit: limit,
+            order: "DESC",
         };
         const url = `${API_URL}/votes`;
         const response = await axios.get(url, { params });
@@ -132,10 +132,10 @@ export const fetchAddToFav = createAsyncThunk(
 
 export const fetchAllFavs = createAsyncThunk(
     "search/fetchAllFavs",
-    async () => {
+    async ({limit}) => {
         const params = {
             api_key: API_KEY,
-            limit: 3,
+            limit: limit,
             order: "DESC"
         };
         const url = `${API_URL}/favourites`;

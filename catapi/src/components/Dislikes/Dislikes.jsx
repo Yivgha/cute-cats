@@ -1,13 +1,58 @@
 "use client"
-import React from 'react'
-import Dashboard from '../Dashboard/Dashboard'
-import LikesNav from '../LikesNav/LikesNav'
-import styles from "../styles/globalLikes.module.css"
-import pageStyles from "./Dislikes.module.css"
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchAllVotes } from "@/api/catapi";
+import { myStatus, votingLogs} from "@/reducers/searchReducer";
+
+import { Loading } from "notiflix/build/notiflix-loading-aio";
+
+import Dashboard from "../Dashboard/Dashboard";
+import LikesNav from "../LikesNav/LikesNav";
+import styles from "../styles/globalLikes.module.css";
+import breedStyle from "../Breed/Breed.module.css";
+import pageStyles from "./Dislikes.module.css";
+
 
 const Dislikes = () => {
+
+  const [dislikes, setDislikes] = useState([]);
+  let filteredDislikes
+
   const router = useRouter();
+
+  const dispatch = useDispatch();
+
+  const status = useSelector(myStatus);
+  const newLogs = useSelector(votingLogs);
+
+  console.log("logs in dislikes", newLogs);
+  console.log("just dislikes", dislikes);
+
+
+  useEffect(() => {
+    if (status === "loading") {
+      Loading.hourglass("Loading...");
+    }
+    if (status === "succeeded") {
+      Loading.remove();
+    }
+  }, []);
+
+  const getDislikes = () => {
+  filteredDislikes = newLogs.filter((i) => i.value === -1);
+    setDislikes(filteredDislikes);
+  };
+
+  useEffect(() => {
+    dispatch(fetchAllVotes({ limit: 15 }));
+    getDislikes()
+    
+  }, []);
+  
+
+
   return (
     <div className={styles.wrapper}>
        <Dashboard />
@@ -34,10 +79,34 @@ const Dislikes = () => {
               <p className={styles.pageLabelText}>Dislikes</p>
             </div>
           </div>
-          <div>
-            <div className={styles.notFoundBox}>
+
+          <div className={breedStyle.breedContent}>
+
+            {dislikes.length > 0 && (
+              <div className={breedStyle.gridBreed} >
+                {dislikes?.map((i, idx) => (
+                  <div key={idx} className={breedStyle.item}>
+                    <img
+                      key={i.id}
+                      src={i?.image?.url}
+                      alt={i.name}
+                      className={breedStyle.gridImg}
+                    />
+
+                    {/* <div className={breedStyle.imgOverlay} >
+                    <div className={breedStyle.imgOverlayLabel}>
+                      <p className={breedStyle.imgOverlayText}>
+                          Click to see more info
+                      </p>
+                    </div>
+                  </div> */}
+                  </div>
+                ))}
+              </div>
+            )}
+            {dislikes.length === 0 && <div className={styles.notFoundBox}>
               <p className={styles.notFoundText}>No items found</p>
-            </div>
+            </div>}
           </div>
         </div>
       </div>

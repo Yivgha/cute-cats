@@ -1,23 +1,64 @@
-"use client"
-import React from 'react'
-import { useRouter } from 'next/navigation'
-import Dashboard from '../Dashboard/Dashboard'
-import LikesNav from '../LikesNav/LikesNav'
-import styles from "../styles/globalLikes.module.css"
-import pageStyles from "./Like.module.css"
+"use client";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchAllVotes } from "@/api/catapi";
+import { myStatus, votingLogs} from "@/reducers/searchReducer";
+
+import { Loading } from "notiflix/build/notiflix-loading-aio";
+
+import Dashboard from "../Dashboard/Dashboard";
+import LikesNav from "../LikesNav/LikesNav";
+import styles from "../styles/globalLikes.module.css";
+import breedStyle from "../Breed/Breed.module.css";
+import pageStyles from "./Like.module.css";
 
 const Like = () => {
+  const [likes, setLikes] = useState([]);
+  let filteredLikes
+
   const router = useRouter();
 
+  const dispatch = useDispatch();
+
+  const status = useSelector(myStatus);
+  const newLogs = useSelector(votingLogs);
+
+  // console.log("logs in likes", newLogs);
+  // console.log("just likes", likes);
+
+  useEffect(() => {
+    if (status === "loading") {
+      Loading.hourglass("Loading...");
+    }
+    if (status === "succeeded") {
+      Loading.remove();
+    }
+  }, []);
+
+  const getLikes = () => {
+  filteredLikes = newLogs.filter((i) => i.value === 1);
+    setLikes(filteredLikes);
+  };
+
+  useEffect(() => {
+    dispatch(fetchAllVotes({ limit: 15 }));
+    getLikes()
+  }, []);
+  
+
   return (
-    
     <div className={styles.wrapper}>
-       <Dashboard />
+      <Dashboard />
       <div className={styles.rightSide}>
-        <LikesNav /> 
+        <LikesNav />
         <div className={styles.likesContent}>
           <div className={styles.pageNav}>
-             <button className={styles.arrowBackBtn} onClick={() => router.back()}>
+            <button
+              className={styles.arrowBackBtn}
+              onClick={() => router.back()}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -36,15 +77,39 @@ const Like = () => {
               <p className={styles.pageLabelText}>Likes</p>
             </div>
           </div>
-          <div>
-            <div className={styles.notFoundBox}>
+
+          <div className={breedStyle.breedContent}>
+
+            {likes.length > 0 && (
+              <div className={breedStyle.gridBreed} >
+                {likes?.map((i, idx) => (
+                  <div key={idx} className={breedStyle.item}>
+                    <img
+                      key={i.id}
+                      src={i?.image?.url}
+                      alt={i.name}
+                      className={breedStyle.gridImg}
+                    />
+
+                    {/* <div className={breedStyle.imgOverlay} >
+                    <div className={breedStyle.imgOverlayLabel}>
+                      <p className={breedStyle.imgOverlayText}>
+                          Click to see more info
+                      </p>
+                    </div>
+                  </div> */}
+                  </div>
+                ))}
+              </div>
+            )}
+            {likes.length === 0 && <div className={styles.notFoundBox}>
               <p className={styles.notFoundText}>No items found</p>
-            </div>
+            </div>}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Like
+export default Like;

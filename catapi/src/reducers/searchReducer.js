@@ -10,6 +10,7 @@ import {
   fetchAllVotes,
   fetchAddToFav,
   fetchAllFavs,
+  fetchDeleteFav,
 } from "../api/catapi";
 
 const initialState = {
@@ -161,6 +162,17 @@ export const searchSlice = createSlice({
       .addCase(fetchAllFavs.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.favLogs = action.payload;
+      })
+      .addCase(fetchDeleteFav.pending, (state, action) => {
+        state.status = "loading"
+      })
+      .addCase(fetchDeleteFav.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchDeleteFav.fulfilled, (state, action) => {
+        state.status = "succeeded";
       })
       .addDefaultCase((state, action) => {
         initialState;

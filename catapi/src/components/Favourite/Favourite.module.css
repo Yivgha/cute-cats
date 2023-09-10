@@ -13,3 +13,20 @@
     height: 840px;
     border-radius: 20px;
 }
+
+.imgOverlayBtn{
+    cursor: pointer;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #FFF;
+        outline: none;
+        border: transparent;
+}
+
+.imgOverlayBtnText{
+    color: #FF868E;
+}

@@ -93,13 +93,6 @@ const Dislikes = () => {
                       className={breedStyle.gridImg}
                     />
 
-                    {/* <div className={breedStyle.imgOverlay} >
-                    <div className={breedStyle.imgOverlayLabel}>
-                      <p className={breedStyle.imgOverlayText}>
-                          Click to see more info
-                      </p>
-                    </div>
-                  </div> */}
                   </div>
                 ))}
               </div>

@@ -145,21 +145,12 @@ export const fetchAllFavs = createAsyncThunk(
     }
 )
 
- // const addToFav = async () => {
-  //   const url = `${API_URL}favourites?api_key=${API_KEY}`;
-  //   const body = {
-  //     image_id: img.id
-  //   };
-  //   await fetch(url,  {
-  //     method: "POST",
-  //     body: JSON.stringify(body),
-  //     headers: {
-  //       "content-type": "application/json",
-  //       "x-api-key": API_KEY,
-  //     },
-  //   }).then((response) => {
-  //     console.log("added to favourite");
-  //     showLogs();
-  //     fetchImgToVote();
-  //   });
-  // }
+export const fetchDeleteFav = createAsyncThunk(
+    "search/fetchDeleteFav",
+    async ({id}) => {
+        const url = `${API_URL}/favourites/${id}?api_key=${API_KEY}`;
+        const response = await axios.delete(url)
+        console.log("deleted fav", response.data);
+        return response.data
+    }
+)

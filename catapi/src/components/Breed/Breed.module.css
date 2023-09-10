@@ -92,6 +92,9 @@ position: relative;
 .imgOverlay{
     display: none;
 }
+.imgOverlayBox {
+    display: none;
+}
 .item:hover .imgOverlay{
     display: flex;
     align-items: flex-end;
@@ -105,6 +108,21 @@ position: relative;
     border-radius: 20px;
     background: rgba(255, 134, 142, 0.60);
     overflow: hidden;
+}
+
+.item:hover .imgOverlayBox{
+    display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 10px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        border-radius: 20px;
+        background: rgba(255, 134, 142, 0.60);
+        overflow: hidden;
 }
 .imgOverlayLabel{
     display: flex;

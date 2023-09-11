@@ -23,6 +23,7 @@
     height: 782px;
     border-radius: 20px;
     background: #FFF;
+    /* overflow-y: hidden; */
 }
 
 .pageNav {

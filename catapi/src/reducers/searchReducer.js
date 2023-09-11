@@ -4,6 +4,7 @@ import {
   fetchByLimit,
   fetchAscended,
   fetchDescended,
+  fetchRandom,
   fetchByName,
   fetchImgToVote,
   fetchAddVote,
@@ -92,6 +93,19 @@ export const searchSlice = createSlice({
         state.status = "succeeded";
         state.searchResults = action.payload;
         state.order = "DESC";
+      })
+      .addCase(fetchRandom.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchRandom.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchRandom.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.searchResults = action.payload;
+        state.order = "RAND";
       })
       .addCase(fetchByName.pending, (state, action) => {
         state.status = "loading";

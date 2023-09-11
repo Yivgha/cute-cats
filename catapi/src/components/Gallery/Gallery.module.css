@@ -1,0 +1,148 @@
+.navAlign {
+  display: flex;
+  justify-content: space-between;
+}
+
+.uploadBtn {
+  width: 143px;
+  height: 40px;
+  border-radius: 10px;
+  background: #fbe0dc;
+  cursor: pointer;
+  outline: none;
+  border: transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.uploadBtnSVG {
+  width: 16px;
+  height: 16px;
+  color: #ff868e;
+  margin-right: 10px;
+}
+.uploadBtnText {
+  color: #ff868e;
+  text-align: center;
+  font-family: var(--font-jost);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.uploadBtn:hover {
+  background: #ff868e;
+}
+
+.uploadBtn:hover .uploadBtnSVG,
+.uploadBtn:hover .uploadBtnText {
+  color: #fff;
+}
+
+.gallerySelectionBox {
+  width: 640px;
+  height: 156px;
+  border-radius: 20px;
+  background: #f8f8f7;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px 20px 20px;
+}
+
+.dropdownBreed {
+  width: 290px;
+  height: 40px;
+  border-radius: 10px;
+  background: #fff;
+  color: #1d1d1d;
+  font-family: var(--font-jost);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  outline: none;
+  border: transparent;
+  padding: 8px 10px;
+}
+
+.dropdownBreed:hover,
+.limitBreed:hover {
+  border: 2px solid #fbe0dc;
+}
+
+.selectLabel {
+  color: #8c8c8c;
+  font-family: var(--font-jost);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 18px;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+}
+.limitBreed {
+  width: 240px;
+  height: 40px;
+  border-radius: 10px;
+  background: #fff;
+  color: #1d1d1d;
+  font-family: var(--font-jost);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  outline: none;
+  border: transparent;
+  padding: 8px 10px;
+}
+.updateBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: end;
+  cursor: pointer;
+  outline: none;
+  border: transparent;
+}
+.updateBtnSVG{
+    width: 20px;
+    height: 20px;
+    color: #FF868E;
+}
+
+.updateBtn:hover{
+    background-color: #FF868E;;
+}
+
+.updateBtn:hover .updateBtnSVG{
+    color: #FFF;
+}
+
+.breedContent {
+    
+    width: 640px;
+    height: 560px;
+    padding: 20px 0;
+    overflow: hidden;
+}
+
+.gridBreed{
+overflow-y: scroll;
+max-width: 640px;
+max-height: 560px;
+    display: grid;
+        /* grid-gap: 15px; */
+        grid-template-columns: repeat(auto-fill, 200px);
+        grid-auto-rows: 140px;
+        grid-auto-flow: dense;
+        justify-content: center;
+}

@@ -65,6 +65,21 @@ export const fetchDescended = createAsyncThunk(
     }
 )
 
+export const fetchRandom = createAsyncThunk(
+    "search/fetchRandom",
+    async(limit)=> {
+        const params = {
+            api_key: API_KEY,
+            limit: limit,
+            order: "RAND",
+        };
+         const url = `${API_URL}/breeds`;
+        const response = await axios.get(url, {params});
+        console.log("random", response.data);
+        return response.data
+    }
+);
+
 export const fetchByName = createAsyncThunk(
     "search/fetchByName",
     async (sliceID) => {

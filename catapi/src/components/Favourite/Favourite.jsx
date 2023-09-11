@@ -24,7 +24,7 @@ const Favourite = () => {
 
  let heart = "Full"
 
-  console.log("logs in favs", favLogs );
+  // console.log("logs in favs", favLogs );
 
   useEffect(() => {
     if (status === "loading") {
@@ -85,6 +85,7 @@ const Favourite = () => {
                       <button className={pageStyles.imgOverlayBtn} onClick={(e) => {
                         e.preventDefault();
                         heart = "Unfav";
+                        console.log(`ImageID ${i.id} was removed from favourites`);
                         dispatch(fetchDeleteFav({ id: i.id }));
                         
                         dispatch(fetchAllFavs({ limit: 10 }));   

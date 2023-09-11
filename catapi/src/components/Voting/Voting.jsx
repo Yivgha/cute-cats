@@ -42,7 +42,7 @@ const Voting = () => {
   }, []);
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === "idle" || oneImg === null) {
     dispatch(fetchImgToVote())
     }
   }, [status, dispatch])

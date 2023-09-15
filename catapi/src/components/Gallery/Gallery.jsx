@@ -6,20 +6,22 @@ import {
   myStatus,
   selectRES,
   byLimit,
-  getOneCat
+  getOneCat,
+  randomSearch
 } from "@/reducers/searchReducer";
 import {
-  fetchAllValues,
-  fetchByLimit,
-  fetchAscended,
-  fetchDescended,
-  fetchRandom
+  // fetchByLimit,
+  // fetchAscended,
+  // fetchDescended,
+  fetchRandom,
+  fetchRandomByLimit
 } from "@/api/catapi";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
+import Modal from "../Modal/Modal";
 import styles from "./Gallery.module.css";
 import pageStyles from "../styles/navPages.module.css";
 import breedStyles from "../Breed/Breed.module.css"
@@ -35,19 +37,28 @@ const Gallery = () => {
   const router = useRouter();
 
 
-    const [option, setOption] = useState("All breeds");
+    const [option, setOption] = useState();
   const [baseLimit, setBaseLimit] = useState(defaultLimit[1].name);
+  const [order, setOrder] = useState("RAND")
+  const [type, setType] = useState("All")
 
+  const [showModal, setShowModal] = useState(false);
+  
   const dispatch = useDispatch();
 
   const status = useSelector(myStatus);
   const res = useSelector(selectRES);
   const limit = useSelector(byLimit);
+  const rand = useSelector(randomSearch)
 
+  console.log("rand", rand);
+
+  // const mixedArr = [...rand, ...res];
+  // console.log("mixed", mixedArr);
 
   useEffect(() => {
     // if (status === "idle") {
-    //   dispatch(fetchAllValues());
+    //   dispatch(fetchRandom());
     // }
     if (status === "loading") {
             Loading.hourglass("Loading...");
@@ -59,16 +70,37 @@ const Gallery = () => {
 
   const handleOrder = (e) => {
     if (e.target.value === "ASC") {
-      dispatch(fetchAscended(limit));
+      dispatch(fetchRandom({ limit: limit, order: e.target.value }));
+      setOrder("ASC")
       console.log("set asc");
     } else if (e.target.value === "DESC") {
-      dispatch(fetchDescended(limit));
+      dispatch(fetchRandom({ limit: limit, order: e.target.value }));
+      setOrder("DESC")
       console.log("set desc");
     } else if (e.target.value === "RAND") {
-      dispatch(fetchRandom(limit));
+      dispatch(fetchRandom({ limit: limit, order: e.target.value }));
       console.log("set random");
     }
   }
+
+  const handleType = (e) => {
+    if (e.target.value === "gif") {
+      dispatch(fetchRandom({ mime_types: e.target.value, limit: limit, order: order }))
+      setType("Animated")
+    } else if (e.target.value === "jpg,png") {
+      dispatch(fetchRandom({ mime_types: e.target.value, limit: limit, order: order }))
+      setType("Static")
+    } else {
+      dispatch(fetchRandom({limit: limit, order: order}))
+  }
+  }
+  
+  const onClose = (e) => {
+    e.preventDefault();
+    setIsOpen(false)
+  }
+
+  // useEffect(()=>{dispatch(fetchRandom({limit: baseLimit}))}, [])
 
   return (
     <div className={pageStyles.wrapper}>
@@ -101,7 +133,11 @@ const Gallery = () => {
               </div>
             </div>
             <div>
-              <button type="button" className={styles.uploadBtn}>
+              <button type="button" className={styles.uploadBtn} onClick={(e) => {
+                e.preventDefault;
+                setShowModal(true);
+                console.log("clicked");
+                }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -129,10 +165,10 @@ const Gallery = () => {
             </label>
 
              <label className={styles.selectLabel}>Type
-              <select name="type" id="type" multiple={false} className={styles.dropdownBreed}>
+              <select name="type" id="type" multiple={false} className={styles.dropdownBreed} onChange={(e) => {handleType(e)}}>
                 <option key={0} name="All" value="All">All</option>
-                <option  key={1} name="Static" value="Static" >Static</option>
-              <option  key={2} name="Animated" value="Animated">Animated</option>
+                <option  key={1} name="Static" value="jpg,png" >Static</option>
+              <option  key={2} name="Animated" value="gif">Animated</option>
             </select>
             </label>
 
@@ -141,20 +177,20 @@ const Gallery = () => {
               name="breeds"
               id="breeds"
                 multiple={false}
-                defaultValue={{ name: "All breeds" }}
+                defaultValue={{ name: "None" }}
                 onChange={(e) => {
                   setOption(e.target.value);
                 }}
                 className={styles.dropdownBreed}
               >
-                <option key={0} id="all" name="All breeds" value="All breeds">
-                  All breeds
+                <option key={0} id="none" name="None" value="None">
+                 None
                 </option>
-                {res?.map((opt) => (
+                {/* {res?.map((opt) => (
                   <option key={opt.id} id={opt.id}>
                     {opt.name}
                   </option>
-                ))}
+                ))} */}
               </select>
             </label>
              <label className={styles.selectLabel}>Limit
@@ -165,7 +201,7 @@ const Gallery = () => {
                 multiple={false}
                 onChange={(e) => {
                   setBaseLimit(e.target.value);
-                  dispatch(fetchByLimit(e.target.value));
+                  dispatch(fetchRandom(e.target.value));
                 }}
                 className={styles.limitBreed}
               >
@@ -186,59 +222,85 @@ const Gallery = () => {
 
 
           <div className={styles.breedContent} >
-              <h1>{option}</h1>
-
-              <div className={styles.gridBreed}>
-                {option !== "All breeds"
-                  ? res?.map((item) => {
-                      if (item.name === option) {
+              {showModal ? <Modal toggleModal={setShowModal} /> : null}
+            <h1>option: {option} type: {type} limit: {baseLimit}</h1>
+            <div className={styles.gridBreed}>
+              {/* {option !== "None"
+                ? res?.map((item) => {
+                  if (item.name === option) {
                         
-                        return (
-                          <div key={item.id} className={breedStyles.item} onClick={() => {
-                              dispatch(getOneCat(item));
-                      console.log("set item", item);
-                      router.push("/breed/info")
-                            }}>
-                            <img
-                              key={item.id}
-                              src={item?.image?.url}
-                              alt={item.name}
-                              className={breedStyles.gridImg}
-                            />
-                           
-                            <div className={breedStyles.imgOverlay}>
-                              <div className={breedStyles.imgOverlayLabel}>
-                                <p className={breedStyles.imgOverlayText}>
-                                  {item.name}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-                    })
-                  : res?.map((item) => (
+                    return (
                       <div key={item.id} className={breedStyles.item} onClick={() => {
-                              dispatch(getOneCat(item));
-                      console.log("set item", item);
-                      router.push("/breed/info")
-                            }}>
-                       
-                            <img
-                              src={item?.image?.url}
-                              alt={item.name}
-                              className={breedStyles.gridImg}
-                            />
-                       
-                            <div className={breedStyles.imgOverlay}>
-                              <div className={breedStyles.imgOverlayLabel}>
-                                <p className={breedStyles.imgOverlayText}>
-                                  {item.name}
-                                </p>
-                              </div>
-                            </div>
+                        dispatch(getOneCat(item));
+                        console.log("set item", item);
+                        router.push("/breed/info")
+                      }}>
+                        <img
+                          key={item.id}
+                          src={item?.image?.url}
+                          alt={item.name}
+                          className={breedStyles.gridImg}
+                        />
+                           
+                        <div className={breedStyles.imgOverlay}>
+                          <div className={breedStyles.imgOverlayLabel}>
+                            <p className={breedStyles.imgOverlayText}>
+                              {item.name}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    ))}
+                    );
+                  }
+                }) : (
+                  rand.map((item) => (
+                 <div key={item.id} className={breedStyles.item} onClick={() => {
+                        // dispatch(getOneCat(item));
+                        // console.log("set item", item);
+                        // router.push("/breed/info")
+                      }}>
+                        <img
+                          key={item.id}
+                          src={item?.url}
+                          alt={item.name}
+                          className={breedStyles.gridImg}
+                        />
+                           
+                        <div className={breedStyles.imgOverlay}>
+                          <div className={breedStyles.imgOverlayLabel}>
+                            <p className={breedStyles.imgOverlayText}>
+                              {item.name}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+              ))
+                )}
+              {!option && (
+                rand.map((item) => (
+                 <div key={item.id} className={breedStyles.item} onClick={() => {
+                        // dispatch(getOneCat(item));
+                        // console.log("set item", item);
+                        // router.push("/breed/info")
+                      }}>
+                        <img
+                          key={item.id}
+                          src={item?.url}
+                          alt={item.name}
+                          className={breedStyles.gridImg}
+                        />
+                           
+                        <div className={breedStyles.imgOverlay}>
+                          <div className={breedStyles.imgOverlayLabel}>
+                            <p className={breedStyles.imgOverlayText}>
+                              {item.name}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+              ))
+                )
+            } */}
               </div>
             </div>
         </div>

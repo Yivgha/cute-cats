@@ -12,6 +12,8 @@ import {
   fetchAddToFav,
   fetchAllFavs,
   fetchDeleteFav,
+  fetchRandomByLimit,
+  // fetchRandomByType,
 } from "../api/catapi";
 
 const initialState = {
@@ -24,7 +26,8 @@ const initialState = {
   selectedIdData: {},
   imgForVote: [],
   votingLogs: [],
- favLogs: []
+  favLogs: [],
+ randomSearch: []
 };
 
 export const searchSlice = createSlice({
@@ -104,9 +107,35 @@ export const searchSlice = createSlice({
       })
       .addCase(fetchRandom.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.searchResults = action.payload;
-        state.order = "RAND";
+        state.randomSearch = action.payload;
+        state.order = action.payload.order;
       })
+      .addCase(fetchRandomByLimit.pending, (state, action) =>{
+        state.status = "loading";
+      })
+      .addCase(fetchRandomByLimit.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchRandomByLimit.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.randomSearch = action.payload;
+        state.order = action.payload.order;
+        state.limit = action.payload.limit;
+      })
+    // .addCase(fetchRandomByType.pending, (state, action) =>{
+    //     state.status = "loading";
+    //   })
+    //   .addCase(fetchRandomByType.rejected, (state, action) => {
+    //     state.status = "failed";
+    //     console.log("rejected data store ", state, action);
+    //     state.error = action.error.message;
+    //   })
+    //   .addCase(fetchRandomByType.fulfilled, (state, action) => {
+    //     state.status = "succeeded";
+    //     state.randomSearch = action.payload;
+    //   })
       .addCase(fetchByName.pending, (state, action) => {
         state.status = "loading";
       })
@@ -205,5 +234,6 @@ export const oneCatData = (state) => state.search.selectedIdData;
 export const imgForVote = (state) => state.search.imgForVote[0];
 export const votingLogs = (state) => state.search.votingLogs;
 export const favouritesLogs = (state) => state.search.favLogs;
+export const randomSearch = (state) => state.search.randomSearch;
 
 export default searchSlice.reducer;

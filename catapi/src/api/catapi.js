@@ -67,18 +67,50 @@ export const fetchDescended = createAsyncThunk(
 
 export const fetchRandom = createAsyncThunk(
     "search/fetchRandom",
-    async(limit)=> {
+    async(limit, order, mime_types)=> {
         const params = {
             api_key: API_KEY,
             limit: limit,
-            order: "RAND",
+            order: order,
+            mime_types: mime_types
         };
-         const url = `${API_URL}/breeds`;
+         const url = `${API_URL}/images/search`;
         const response = await axios.get(url, {params});
         console.log("random", response.data);
         return response.data
     }
 );
+
+export const fetchRandomByLimit = createAsyncThunk(
+    "search/fetchRandomByLimit",
+    async (limit, order) => {
+        const params = {
+            api_key: API_KEY,
+            limit: limit,
+            order: order,
+        };
+         const url = `${API_URL}/images/search`;
+        const response = await axios.get(url, {params});
+        console.log("random limit", response.data);
+        return response.data
+    }
+)
+
+// export const fetchRandomByType = createAsyncThunk(
+//     "search/fetchRandomByType",
+//     async (limit, order, mime_types) => {
+//         const params = {
+//             api_key: API_KEY,
+//             limit: limit ? limit : 10,
+//             order: order ? order : "RAND",
+//            mime_types: mime_types
+//         };
+//         const url = `${API_URL}/images/search`;
+//         const response = await axios.get(url, {params});
+//         console.log("random type", response.data);
+//         return response.data
+//     }
+// )
 
 export const fetchByName = createAsyncThunk(
     "search/fetchByName",

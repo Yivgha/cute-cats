@@ -1,0 +1,158 @@
+.modal {
+  max-width: 100vw;
+  max-height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(29, 29, 29, 0.6);
+z-index: 14;
+}
+.modalContent {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  /* bottom: 30px; */
+  border-radius: 20px;
+  background-color: #f8f8f7;
+  width: 680px;
+  height: 840px;
+    display: flex;
+    flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 15;
+}
+.modalCloseBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  outline: none;
+  border: transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalCloseBtnSVG {
+  color: #ff868e;
+}
+
+.modalCloseBtn:hover {
+  background-color: #ff868e;
+}
+
+.modalCloseBtn:hover .modalCloseBtnSVG {
+  color: #fff;
+}
+
+.modaltitle{
+    color: #1D1D1D;
+        font-family: var(--font-jost);
+        font-size: 36px;
+        font-weight: 500;
+        line-height: normal;
+        margin-bottom: 10px;
+}
+
+.modalDescription{
+    color: #8C8C8C;
+        font-family: var(--font-jost);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 30px;
+}
+
+.modalTextHighLight{
+    color: #FF868E;
+    font-family: var(--font-jost);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 30px;
+}
+
+.modalImgSelect{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 640px;
+    height: 320px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+        border: 2px dashed #FBE0DC;
+        background: #FFF;
+        padding: 20px 40px;
+}
+
+.modalBoldText{
+    color: #1D1D1D;
+        font-family: var(--font-jost);
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 30px;
+}
+
+.modalFooterText {
+    margin-bottom: 20px;
+}
+
+.modalUploadBtn{
+    width: 172px;
+    height: 40px;
+    border-radius: 10px;
+    background: #FF868E;
+    color: #FFF;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    border: transparent;
+}
+
+.modalUploadBtn:hover{
+    background-color: #FBE0DC;
+    color: #FF868E;
+}
+
+.modalLogState{
+    width: 640px;
+    height: 60px;
+    border-radius: 10px;
+    background: #FFF;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.modalLogText{
+    color: #8C8C8C;
+    font-family: var(--font-jost);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+}
+
+.modalLogSVG{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.successLog{
+    color: #97EAB9;
+}
+
+.errorLog{
+    color: #FF868E;
+}

@@ -201,3 +201,23 @@ export const fetchDeleteFav = createAsyncThunk(
         return response.data
     }
 )
+
+export const fetchUploadImg = createAsyncThunk(
+    "search/fetchUploadImg",
+    async ({file}) => {
+        const url = `${API_URL}/images/upload?api_key=${API_KEY}`;
+        const response = await axios.post(url, {file});
+        console.log("image uploaded", response.data);
+        return response.data
+    }
+)
+
+export const fetchMyUploads = createAsyncThunk(
+    "search/fetchMyUploads",
+    async () => {
+        const url = `${API_URL}/images?limit=10&api_key=${API_KEY}`;
+        const response = await axios.get(url);
+        console.log("my uploads", response.data);
+        return response.data
+    }
+)

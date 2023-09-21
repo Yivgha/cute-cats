@@ -14,6 +14,8 @@ import {
   fetchDeleteFav,
   fetchRandomByLimit,
   // fetchRandomByType,
+  fetchUploadImg,
+  fetchMyUploads
 } from "../api/catapi";
 
 const initialState = {
@@ -27,7 +29,8 @@ const initialState = {
   imgForVote: [],
   votingLogs: [],
   favLogs: [],
- randomSearch: []
+  randomSearch: [],
+ myUploads: []
 };
 
 export const searchSlice = createSlice({
@@ -217,6 +220,29 @@ export const searchSlice = createSlice({
       .addCase(fetchDeleteFav.fulfilled, (state, action) => {
         state.status = "succeeded";
       })
+      .addCase(fetchUploadImg.pending, (state, action) => {
+        state.status = "loading"
+      })
+      .addCase(fetchUploadImg.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchUploadImg.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
+      .addCase(fetchMyUploads.pending, (state, action) => {
+        state.status = "loading"
+      })
+      .addCase(fetchMyUploads.rejected, (state, action) => {
+        state.status = "failed";
+        console.log("rejected data store ", state, action);
+        state.error = action.error.message;
+      })
+      .addCase(fetchMyUploads.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.myUploads = action.payload
+      })
       .addDefaultCase((state, action) => {
         initialState;
       });
@@ -235,5 +261,6 @@ export const imgForVote = (state) => state.search.imgForVote[0];
 export const votingLogs = (state) => state.search.votingLogs;
 export const favouritesLogs = (state) => state.search.favLogs;
 export const randomSearch = (state) => state.search.randomSearch;
+export const allUploads = (state) => state.search.myUploads;
 
 export default searchSlice.reducer;

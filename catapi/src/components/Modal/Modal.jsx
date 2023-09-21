@@ -1,5 +1,8 @@
 import React, {useState, useRef} from "react";
 import styles from "./Modal.module.css";
+import { fetchUploadImg } from "@/api/catapi"
+import { useDispatch, useSelector } from "react-redux";
+import {myStatus} from "@/reducers/searchReducer"
 
 const Modal = ({ toggleModal }) => {
 
@@ -7,7 +10,11 @@ const Modal = ({ toggleModal }) => {
     const [previewUrl, setPreviewUrl] = useState(null);
     const [uploadState, setUploadState] = useState(null);
     const fileInput = useRef(null);
-    
+
+    const dispatch = useDispatch();
+
+    const status = useSelector(myStatus);
+
     const handleFile = file => {
         setImage(file);
         setPreviewUrl(URL.createObjectURL(file));
@@ -24,6 +31,20 @@ const Modal = ({ toggleModal }) => {
         handleFile(imageFile);
     }
 
+    const handleUpload = (e) => {
+        e.preventDefault();
+        if (image !== null) {
+            // console.log(image, previewUrl);
+            // console.log("dispatched photo");
+            dispatch(fetchUploadImg({file: image}));
+            if (status === "succeeded") {
+                setUploadState(true)
+            } else if (status === "failed") {
+                setUploadState(false)
+            }
+        }
+ 
+    }
 
   return (
     <div className={styles.modal}>
@@ -62,13 +83,6 @@ const Modal = ({ toggleModal }) => {
           or face deletion.
         </p>
 
-        {/* <div className={styles.modalImgSelect}>
-          <p className={styles.modalDescription}>
-            <span className={styles.modalBoldText}>Drag here </span> your file
-            or <span className={styles.modalBoldText}>Click here</span> to
-            upload
-          </p>
-              </div> */}
               
               <div className={styles.modalImgSelect} onDragOver={handleOndragOver}
                 onDrop={handleOndrop}
@@ -94,7 +108,7 @@ const Modal = ({ toggleModal }) => {
 {previewUrl !== null ? (<><p className={`${styles.modalDescription} ${styles.modalFooterText}`}>
           Image File Name: {image?.name}
         </p>
-              <button type="button" className={styles.modalUploadBtn}>
+              <button type="button" className={styles.modalUploadBtn} onClick={(e) => {handleUpload(e)}}>
           Upload photo
               </button>
               </>) : (<p className={`${styles.modalDescription} ${styles.modalFooterText}`}>

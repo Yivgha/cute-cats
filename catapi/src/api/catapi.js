@@ -204,9 +204,12 @@ export const fetchDeleteFav = createAsyncThunk(
 
 export const fetchUploadImg = createAsyncThunk(
     "search/fetchUploadImg",
-    async ({file}) => {
+    async (image) => {
         const url = `${API_URL}/images/upload?api_key=${API_KEY}`;
-        const response = await axios.post(url, {file});
+        const response = await axios.post(url, {file: image},
+    {headers: {
+      'Content-Type': 'multipart/form-data'
+    }})
         console.log("image uploaded", response.data);
         return response.data
     }

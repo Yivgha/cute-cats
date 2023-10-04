@@ -125,7 +125,6 @@ export const searchSlice = createSlice({
         state.status = "succeeded";
         state.randomSearch = action.payload;
         state.order = action.payload.order;
-        state.limit = action.payload.limit;
       })
     // .addCase(fetchRandomByType.pending, (state, action) =>{
     //     state.status = "loading";

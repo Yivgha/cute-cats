@@ -16,7 +16,9 @@ import {
   // fetchDescended,
   fetchRandom,
   fetchRandomByLimit, 
-  fetchMyUploads
+  fetchAllValues,
+  fetchMyUploads,
+  fetchUploadImg
 } from "@/api/catapi";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
@@ -42,7 +44,8 @@ const Gallery = () => {
     const [option, setOption] = useState();
   const [baseLimit, setBaseLimit] = useState(defaultLimit[1].name);
   const [order, setOrder] = useState("RAND")
-  const [type, setType] = useState("All")
+  const [type, setType] = useState("All");
+ 
 
   const [showModal, setShowModal] = useState(false);
   
@@ -50,58 +53,89 @@ const Gallery = () => {
 
   const status = useSelector(myStatus);
   const res = useSelector(selectRES);
-  const limit = useSelector(byLimit);
-  const rand = useSelector(randomSearch)
+  // const limit = useSelector(byLimit);
+  // const rand = useSelector(randomSearch)
    const uploads = useSelector(allUploads);
+  // const mixedArr = [...uploads, ...res].slice(0, baseLimit);
+ 
+  const [mixedArr, setMixedArr] = useState()
+  
+   useEffect(() => {
+     if (status === "idle") {
+      dispatch(fetchAllValues())
+      dispatch(fetchMyUploads());
+      
+    } else if(status === "loading"){
+      Loading.hourglass("Loading...");
+       }else if (status === "succeeded") {
+       Loading.remove()
+        }
+   }, [status]);
 
-    console.log("all upl", uploads);
-
-  console.log("rand", rand);
-
-  // const mixedArr = [...rand, ...res];
-  // console.log("mixed", mixedArr);
-
-  useEffect(() => {
-    // if (status === "idle") {
-    //   dispatch(fetchRandom());
-    // }
-    // if (status === "loading") {
-    //         Loading.hourglass("Loading...");
-    //     }
-    //     if (status === "succeeded") {
-    //         Loading.remove()
-    //     }
-  }, [status]);
+  useEffect(()=>{setMixedArr([...uploads, ...res].slice(0, baseLimit))}, [uploads, res, baseLimit, order])
+  // const mixedArr = useState([...uploads, ...res])
+  
 
   const handleOrder = (e) => {
+    const flat =  mixedArr.reduce((total, amount) => {
+  return total.concat(amount);
+    }, []);
+    
     if (e.target.value === "ASC") {
-      dispatch(fetchRandom({ limit: limit, order: e.target.value }));
+
       setOrder("ASC")
-      console.log("set asc");
+      
+      
+      flat.sort((a, b) => {
+        if (a.id !== undefined && b.id !== undefined) { a.id.toLowerCase() - b.id.toLowerCase() ? 1 : -1 }
+        else if (a.image.id !== undefined && b.image.id !== undefined) {
+          a.image.id.toLowerCase() - b.image.id.toLowerCase() ? 1 : -1
+        }
+      })
+      console.log("set asc", flat);
     } else if (e.target.value === "DESC") {
-      dispatch(fetchRandom({ limit: limit, order: e.target.value }));
+
+      flat.sort((a,b) => {if (a.id !== undefined && b.id !== undefined) { b.id.toLowerCase() - a.id.toLowerCase() ? 1 : -1 }
+        else if (a.image.id !== undefined && b.image.id !== undefined) {
+          b.image.id.toLowerCase() - a.image.id.toLowerCase() ? 1 : -1
+        }})
       setOrder("DESC")
-      console.log("set desc");
+      console.log("set desc",  flat);
     } else if (e.target.value === "RAND") {
-      dispatch(fetchRandom({ limit: limit, order: e.target.value }));
-      console.log("set random");
+
+      setOrder("RAND");
+
+      let currentIndex = flat.length;
+      let randomIndex;
+      while (currentIndex > 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [flat[currentIndex], flat[randomIndex]] = [
+      flat[randomIndex],flat[currentIndex]];
+  }
+      console.log("set random", flat);     
     }
   }
 
   const handleType = (e) => {
-    if (e.target.value === "gif") {
-      dispatch(fetchRandom({ mime_types: e.target.value, limit: limit, order: order }))
-      setType("Animated")
-    } else if (e.target.value === "jpg,png") {
-      dispatch(fetchRandom({ mime_types: e.target.value, limit: limit, order: order }))
-      setType("Static")
-    } else {
-      dispatch(fetchRandom({limit: limit, order: order}))
-  }
+  //   if (e.target.value === "gif") {
+  //     dispatch(fetchRandom({ mime_types: e.target.value, limit: limit, order: order }))
+  //     setType("Animated")
+  //   } else if (e.target.value === "jpg,png") {
+  //     dispatch(fetchRandom({ mime_types: e.target.value, limit: limit, order: order }))
+  //     setType("Static")
+  //   } else {
+  //     dispatch(fetchRandom({limit: limit, order: order}))
+  // }
   }
 
 
-  // useEffect(()=>{dispatch(fetchRandom({limit: baseLimit}))}, [])
+
+   
 
   return (
     <div className={pageStyles.wrapper}>
@@ -137,7 +171,6 @@ const Gallery = () => {
               <button type="button" className={styles.uploadBtn} onClick={(e) => {
                 e.preventDefault;
                 setShowModal(true);
-                console.log("clicked");
                 }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -187,13 +220,15 @@ const Gallery = () => {
                 <option key={0} id="none" name="None" value="None">
                  None
                 </option>
-                {/* {res?.map((opt) => (
+                {res?.map((opt) => (
                   <option key={opt.id} id={opt.id}>
                     {opt.name}
                   </option>
-                ))} */}
+                ))}
               </select>
             </label>
+
+
              <label className={styles.selectLabel}>Limit
               <select
                 name="limit"
@@ -202,7 +237,6 @@ const Gallery = () => {
                 multiple={false}
                 onChange={(e) => {
                   setBaseLimit(e.target.value);
-                  dispatch(fetchRandom(e.target.value));
                 }}
                 className={styles.limitBreed}
               >
@@ -223,26 +257,38 @@ const Gallery = () => {
 
 
           <div className={styles.breedContent} >
-              {showModal ? <Modal toggleModal={setShowModal} /> : null}
+            {showModal ? <Modal toggleModal={setShowModal} /> : null}
+            
+
             <h1>option: {option} type: {type} limit: {baseLimit}</h1>
+
+
             <div className={styles.gridBreed}>
-              {uploads.map((item) =>  (
-                      <div key={item.id} className={breedStyles.item} onClick={() => {
-                       
+              
+              {option === "None" ? (
+                  mixedArr?.map((item) => (
+                <div key={item.id} className={breedStyles.item} onClick={() => {
+                  if(item?.image?.url !== undefined )
+                 { dispatch(getOneCat(item));
+                  router.push("/breed/info")}
                       }}>
                         <img
                           key={item.id}
-                          src={item?.url}
-                          alt={item.id}
+                          src={item?.url !== undefined ? item?.url : item?.image?.url}
+                          alt={item.name}
                           className={breedStyles.gridImg}
                         />
                            
-                        
+                        <div className={breedStyles.imgOverlay}>
+                          <div className={breedStyles.imgOverlayLabel}>
+                            <p className={breedStyles.imgOverlayText}>
+                              {item?.image?.url !== undefined ? item.name : item.id }
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    )
-              )}
-              {/* {option !== "None"
-                ? res?.map((item) => {
+              ))
+                ): (res?.map((item) => {
                   if (item.name === option) {
                         
                     return (
@@ -268,55 +314,9 @@ const Gallery = () => {
                       </div>
                     );
                   }
-                }) : (
-                  rand.map((item) => (
-                 <div key={item.id} className={breedStyles.item} onClick={() => {
-                        // dispatch(getOneCat(item));
-                        // console.log("set item", item);
-                        // router.push("/breed/info")
-                      }}>
-                        <img
-                          key={item.id}
-                          src={item?.url}
-                          alt={item.name}
-                          className={breedStyles.gridImg}
-                        />
-                           
-                        <div className={breedStyles.imgOverlay}>
-                          <div className={breedStyles.imgOverlayLabel}>
-                            <p className={breedStyles.imgOverlayText}>
-                              {item.name}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-              ))
-                )}
-              {!option && (
-                rand.map((item) => (
-                 <div key={item.id} className={breedStyles.item} onClick={() => {
-                        // dispatch(getOneCat(item));
-                        // console.log("set item", item);
-                        // router.push("/breed/info")
-                      }}>
-                        <img
-                          key={item.id}
-                          src={item?.url}
-                          alt={item.name}
-                          className={breedStyles.gridImg}
-                        />
-                           
-                        <div className={breedStyles.imgOverlay}>
-                          <div className={breedStyles.imgOverlayLabel}>
-                            <p className={breedStyles.imgOverlayText}>
-                              {item.name}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-              ))
-                )
-            } */}
+              }))}
+
+              
               </div>
             </div>
         </div>

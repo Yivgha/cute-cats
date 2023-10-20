@@ -76,7 +76,7 @@ export const fetchRandom = createAsyncThunk(
         };
          const url = `${API_URL}/images/search`;
         const response = await axios.get(url, {params});
-        console.log("random", response.data);
+        // console.log("random", response.data);
         return response.data
     }
 );
@@ -91,7 +91,7 @@ export const fetchRandomByLimit = createAsyncThunk(
         };
          const url = `${API_URL}/images/search`;
         const response = await axios.get(url, {params});
-        console.log("random limit", response.data);
+        // console.log("random limit", response.data);
         return response.data
     }
 )

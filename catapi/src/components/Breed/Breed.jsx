@@ -173,7 +173,7 @@ const Breed = () => {
                         return (
                           <div key={item.id} className={styles.item} onClick={() => {
                               dispatch(getOneCat(item));
-                      console.log("set item", item);
+                      // console.log("set item", item);
                       router.push("/breed/info")
                             }}>
                             <img
@@ -197,7 +197,7 @@ const Breed = () => {
                   : res?.map((item) => (
                       <div key={item.id} className={styles.item} onClick={() => {
                               dispatch(getOneCat(item));
-                      console.log("set item", item);
+                      // console.log("set item", item);
                       router.push("/breed/info")
                             }}>
                        

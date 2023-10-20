@@ -72,7 +72,7 @@ const Search = () => {
                 {inp?.map((item) => (
                   <div key={item.id} className={pageStyles.item}  onClick={() => {
                               dispatch(getOneCat(item));
-                      console.log("set item", item);
+                      // console.log("set item", item);
                       router.push("/breed/info")
                             }}>
                     <img

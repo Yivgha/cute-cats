@@ -84,7 +84,7 @@ const Favourite = () => {
                       <button className={pageStyles.imgOverlayBtn} onClick={(e) => {
                         e.preventDefault();
                         heart = "Unfav";
-                        console.log(`ImageID ${i.id} was removed from favourites`);
+                        // console.log(`ImageID ${i.id} was removed from favourites`);
                         dispatch(fetchDeleteFav({ id: i.id }));
                         Notify.success('Image was removed from favourites')
                         dispatch(fetchAllFavs({ limit: 10 }));   

@@ -250,7 +250,7 @@ const Gallery = () => {
                   return (
                     <div key={item.id} className={breedStyles.item} onClick={() => {
                       dispatch(getOneCat(item));
-                      console.log("set item", item);
+                      // console.log("set item", item);
                       router.push("/breed/info")
                     }}>
                       <img

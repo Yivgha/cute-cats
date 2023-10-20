@@ -36,7 +36,7 @@ const Modal = ({ toggleModal }) => {
     
     let imageFile = e.dataTransfer.files[0];
     handleFile(imageFile);
-    console.log(imageFile);
+    // console.log(imageFile);
   };
 
   const handleUpload = (e) => {

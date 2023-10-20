@@ -1,18 +1,15 @@
 "use client";
 import React, { useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter} from "next/navigation";
 import { useSelector } from "react-redux";
 import {
-  byInput,
-  inpVal,
   oneCatData,
   myStatus,
-} from "@/reducers/searchReducer";
+} from "../../reducers/searchReducer";
 import Dashboard from "../Dashboard/Dashboard";
 import LikesNav from "../LikesNav/LikesNav";
 import styles from "../styles/globalLikes.module.css";
 import infoStyles from "./BreedInfo.module.css";
-// import { Carousel } from "react-responsive-carousel";
 import { Loading } from "notiflix/build/notiflix-loading-aio";
 
 const BreedInfo = () => {

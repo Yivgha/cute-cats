@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchImgToVote, fetchAddVote, fetchAllVotes, fetchAddToFav, fetchAllFavs } from "@/api/catapi";
-import { myStatus, imgForVote, votingLogs, favouritesLogs } from "@/reducers/searchReducer";
+import { fetchImgToVote, fetchAddVote, fetchAllVotes, fetchAddToFav, fetchAllFavs } from "../../api/catapi";
+import { myStatus, imgForVote, votingLogs, favouritesLogs } from "../../reducers/searchReducer";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 

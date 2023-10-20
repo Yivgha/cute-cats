@@ -2,7 +2,7 @@
 import React from 'react'
 import Image from "next/image"
 import { usePathname } from 'next/navigation'
-import CustomLink from "@/components/CustomLink/Custom"
+import CustomLink from "../../components/CustomLink/Custom"
 import styles from "./Dashboard.module.css"
 import paw from "./../../assets/images/paw-logo.png"
 import textLogo from "./../../assets/images/PetsPaw.png"

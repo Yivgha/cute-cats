@@ -3,8 +3,8 @@ import React, { useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchAllFavs, fetchDeleteFav } from "@/api/catapi";
-import { myStatus, favouritesLogs} from "@/reducers/searchReducer";
+import { fetchAllFavs, fetchDeleteFav } from "../../api/catapi";
+import { myStatus, favouritesLogs} from "../../reducers/searchReducer";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Loading } from "notiflix/build/notiflix-loading-aio";
 

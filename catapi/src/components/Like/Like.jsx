@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchAllVotes} from "@/api/catapi";
-import { myStatus, votingLogs} from "@/reducers/searchReducer";
+import { fetchAllVotes} from "../../api/catapi";
+import { myStatus, votingLogs} from "../../reducers/searchReducer";
 
 import { Loading } from "notiflix/build/notiflix-loading-aio";
 

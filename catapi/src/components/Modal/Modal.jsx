@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import styles from "./Modal.module.css";
-import { fetchUploadImg, fetchMyUploads } from "@/api/catapi";
+import { fetchUploadImg, fetchMyUploads } from "../../api/catapi";
 import { useDispatch, useSelector } from "react-redux";
-import { myStatus } from "@/reducers/searchReducer";
+import { myStatus } from "../../reducers/searchReducer";
 import defaultLimit from "../../assets/json/defaultLimit";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 

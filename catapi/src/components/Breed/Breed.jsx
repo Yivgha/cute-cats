@@ -7,13 +7,13 @@ import {
   selectRES,
   byLimit,
   getOneCat,
-} from "@/reducers/searchReducer";
+} from "../../reducers/searchReducer";
 import {
   fetchAllValues,
   fetchByLimit,
   fetchAscended,
   fetchDescended,
-} from "@/api/catapi";
+} from "../../api/catapi";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import Dislikes from '@/components/Dislikes/Dislikes';
+import Dislikes from '../../components/Dislikes/Dislikes';
 
 const DislikesPage = () => {
   return (

@@ -8,12 +8,12 @@ import {
   selectRES,
   getOneCat,
   allUploads
-} from "@/reducers/searchReducer";
+} from "../../reducers/searchReducer";
 import {
 
   fetchAllValues,
   fetchMyUploads,
-} from "@/api/catapi";
+} from "../../api/catapi";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 

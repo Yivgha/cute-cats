@@ -2,7 +2,7 @@
 import React, {useEffect} from "react";
 import { useRouter } from "next/navigation";
 import {useSelector, useDispatch } from "react-redux";
-import { byInput, inpVal, getOneCat, myStatus } from "@/reducers/searchReducer";
+import { byInput, inpVal, getOneCat, myStatus } from "../../reducers/searchReducer";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 

@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllValues} from "@/api/catapi";
-import { selectRES, myStatus, setSearchText, setSearchTextRes } from "@/reducers/searchReducer";
+import { fetchAllValues} from "../../api/catapi";
+import { selectRES, myStatus, setSearchText, setSearchTextRes } from "../../reducers/searchReducer";
 import CustomLink from "../CustomLink/Custom";
 import styles from "./LikesNav.module.css";
 

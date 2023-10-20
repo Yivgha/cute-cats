@@ -1,8 +1,8 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-const API_KEY = process.env.API_KEY
-const API_URL = process.env.API_URL
+const API_KEY = "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT"
+const API_URL = "https://api.thecatapi.com/v1"
 
 export const fetchAllValues = createAsyncThunk(
     "search/fetchAllValues",

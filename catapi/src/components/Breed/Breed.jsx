@@ -43,9 +43,9 @@ const Breed = () => {
 
 
   useEffect(() => {
-    // if (status === "idle") {
-    //   dispatch(fetchAllValues());
-    // }
+    if (status === "idle") {
+      dispatch(fetchAllValues());
+    }
     if (status === "loading") {
             Loading.hourglass("Loading...");
         }
@@ -164,8 +164,7 @@ const Breed = () => {
               </button>
             </div>
             <div className={styles.breedContent}>
-              <h1>{option}</h1>
-
+            
               <div className={styles.gridBreed}>
                 {option !== "All breeds"
                   ? res?.map((item) => {

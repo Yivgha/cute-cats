@@ -1,11 +1,11 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchAllFavs, fetchDeleteFav } from "@/api/catapi";
 import { myStatus, favouritesLogs} from "@/reducers/searchReducer";
-
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Loading } from "notiflix/build/notiflix-loading-aio";
 
 import Dashboard from "../Dashboard/Dashboard";
@@ -24,7 +24,6 @@ const Favourite = () => {
 
  let heart = "Full"
 
-  // console.log("logs in favs", favLogs );
 
   useEffect(() => {
     if (status === "loading") {
@@ -87,7 +86,7 @@ const Favourite = () => {
                         heart = "Unfav";
                         console.log(`ImageID ${i.id} was removed from favourites`);
                         dispatch(fetchDeleteFav({ id: i.id }));
-                        
+                        Notify.success('Image was removed from favourites')
                         dispatch(fetchAllFavs({ limit: 10 }));   
                       }}>
                         {heart === "Full" ?  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="currentColor" className={pageStyles.imgOverlayBtnText}>

@@ -3,12 +3,18 @@ import styles from "./Modal.module.css";
 import { fetchUploadImg, fetchMyUploads } from "@/api/catapi";
 import { useDispatch, useSelector } from "react-redux";
 import { myStatus } from "@/reducers/searchReducer";
+import defaultLimit from "../../assets/json/defaultLimit";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const Modal = ({ toggleModal }) => {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [uploadState, setUploadState] = useState(null);
   const fileInput = useRef(null);
+    const [baseLimit, setBaseLimit] = useState(defaultLimit[1].name);
+  const [order, setOrder] = useState("DESC")
+  const [type, setType] = useState("All");
+  const [page, setPage] = useState(0)
 
   const dispatch = useDispatch();
 
@@ -30,6 +36,7 @@ const Modal = ({ toggleModal }) => {
     
     let imageFile = e.dataTransfer.files[0];
     handleFile(imageFile);
+    console.log(imageFile);
   };
 
   const handleUpload = (e) => {
@@ -41,7 +48,7 @@ const Modal = ({ toggleModal }) => {
       if (status === "succeeded") {
            setTimeout(() => {
              toggleModal(false);
-             dispatch(fetchMyUploads())
+             dispatch(fetchMyUploads({limit: baseLimit, order: order, page:page, mime_type: type}))
         }, 3000);
         setUploadState(true);
       } else if (status === "failed") {
@@ -157,7 +164,7 @@ const Modal = ({ toggleModal }) => {
               Thanks for the Upload - Cat found!
             </p>
           </div>
-        )}
+        ) && Notify.success('Image was uploaded successfully')}
 
         {uploadState === false && (
           <div className={styles.modalLogState}>
@@ -178,7 +185,7 @@ const Modal = ({ toggleModal }) => {
               No Cat found - try a different one
             </p>
           </div>
-        )}
+        ) && Notify.failure('Image was not uploaded. Try again with another one')}
       </div>
     </div>
   );

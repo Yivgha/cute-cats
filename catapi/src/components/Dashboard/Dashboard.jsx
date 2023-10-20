@@ -26,7 +26,7 @@ const Dashboard = ({splitLocation}) => {
                   </div>
               <div className={styles.pagesNav}>
                   <h1 className={styles.title}>Hi! &#128075; </h1>
-                  <h2 className={styles.underTitle}>Welcome to MacPaw Bootcamp 2023</h2>
+                  <h2 className={styles.underTitle}>Welcome to Cute Cats App</h2>
                   <p className={styles.basicText}>Lets start using The Cat API</p>
             <div>
               <ul className={styles.mainList}>

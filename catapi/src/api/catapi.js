@@ -15,7 +15,7 @@ export const fetchAllValues = createAsyncThunk(
         const url = `${API_URL}/breeds`
 
         const response = await axios.get(url, {params});
-         console.log("got all values for store", response.data);
+        
          return response.data;
     }
 );
@@ -30,7 +30,7 @@ export const fetchByLimit = createAsyncThunk(
   };
         const url = `${API_URL}/breeds`;
         const response = await axios.get(url, {params});
-        console.log("fetched by limit", response.data);
+  
         return response.data
     }
 )
@@ -45,7 +45,7 @@ export const fetchAscended = createAsyncThunk(
   };
         const url = `${API_URL}/breeds`;
         const response = await axios.get(url, {params});
-        console.log("ascended", response.data);
+       
         return response.data
     }
 )
@@ -60,7 +60,7 @@ export const fetchDescended = createAsyncThunk(
   };
         const url = `${API_URL}/breeds`;
         const response = await axios.get(url, {params});
-        console.log("descended", response.data);
+        
         return response.data
     }
 )
@@ -96,22 +96,6 @@ export const fetchRandomByLimit = createAsyncThunk(
     }
 )
 
-// export const fetchRandomByType = createAsyncThunk(
-//     "search/fetchRandomByType",
-//     async (limit, order, mime_types) => {
-//         const params = {
-//             api_key: API_KEY,
-//             limit: limit ? limit : 10,
-//             order: order ? order : "RAND",
-//            mime_types: mime_types
-//         };
-//         const url = `${API_URL}/images/search`;
-//         const response = await axios.get(url, {params});
-//         console.log("random type", response.data);
-//         return response.data
-//     }
-// )
-
 export const fetchByName = createAsyncThunk(
     "search/fetchByName",
     async (sliceID) => {
@@ -123,7 +107,7 @@ export const fetchByName = createAsyncThunk(
         };
         const url = `${API_URL}/images/search`;
         const response = await axios.get(url, { params });
-        console.log("get by name", response.data);
+      
         return response.data
     }
 )
@@ -137,7 +121,7 @@ export const fetchImgToVote = createAsyncThunk(
         };
         const url = `${API_URL}/images/search`;
         const response = await axios.get(url, { params });
-        console.log("get img for vote", response.data);
+        
         return response.data
     }
 );
@@ -147,7 +131,7 @@ export const fetchAddVote = createAsyncThunk(
     async ({image_id, value}) => {
         const url = `${API_URL}/votes?api_key=${API_KEY}`;
         const response = await axios.post(url, {image_id: image_id, value: value });
-        console.log("voted", response.data);
+    
         return response.data
     }
 )
@@ -162,7 +146,7 @@ export const fetchAllVotes = createAsyncThunk(
         };
         const url = `${API_URL}/votes`;
         const response = await axios.get(url, { params });
-        console.log("got logs", response.data);
+ 
         return response.data
     }
 )
@@ -172,7 +156,7 @@ export const fetchAddToFav = createAsyncThunk(
     async ({image_id}) => {
         const url = `${API_URL}/favourites?api_key=${API_KEY}`;
         const response = await axios.post(url, { image_id: image_id });
-        console.log("added to fav", response.data);
+        
         return response.data
     }
 )
@@ -187,7 +171,7 @@ export const fetchAllFavs = createAsyncThunk(
         };
         const url = `${API_URL}/favourites`;
         const response = await axios.get(url, { params });
-        console.log("got favs", response.data);
+  
         return response.data
     }
 )
@@ -197,7 +181,7 @@ export const fetchDeleteFav = createAsyncThunk(
     async ({id}) => {
         const url = `${API_URL}/favourites/${id}?api_key=${API_KEY}`;
         const response = await axios.delete(url)
-        console.log("deleted fav", response.data);
+
         return response.data
     }
 )
@@ -210,17 +194,24 @@ export const fetchUploadImg = createAsyncThunk(
     {headers: {
       'Content-Type': 'multipart/form-data'
     }})
-        console.log("image uploaded", response.data);
+
         return response.data
     }
 )
 
 export const fetchMyUploads = createAsyncThunk(
     "search/fetchMyUploads",
-    async () => {
-        const url = `${API_URL}/images?limit=10&api_key=${API_KEY}`;
-        const response = await axios.get(url);
-        console.log("my uploads", response.data);
+    async ({limit, order, mime_types, page}) => {
+        const params = {
+            api_key: API_KEY,
+            limit: limit,
+            page: page,
+            order: order, 
+            mime_types: mime_types
+        }
+        const url = `${API_URL}/images`;
+        const response = await axios.get(url, { params });
+
         return response.data
     }
 )

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Store from "@/reducers/store";
+
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
@@ -18,7 +18,7 @@ const LikesNav = () => {
  const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
-  // const state = Store.getState();
+ 
   const res = useSelector(selectRES)
   const status = useSelector(myStatus)
 

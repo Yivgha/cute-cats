@@ -113,36 +113,34 @@
   outline: none;
   border: transparent;
 }
-.updateBtnSVG{
-    width: 20px;
-    height: 20px;
-    color: #FF868E;
+.updateBtnSVG {
+  width: 20px;
+  height: 20px;
+  color: #ff868e;
 }
 
-.updateBtn:hover{
-    background-color: #FF868E;;
+.updateBtn:hover {
+  background-color: #ff868e;
 }
 
-.updateBtn:hover .updateBtnSVG{
-    color: #FFF;
+.updateBtn:hover .updateBtnSVG {
+  color: #fff;
 }
 
 .breedContent {
-    
-    width: 640px;
-    height: 560px;
-    padding: 20px 0;
-    overflow: hidden;
+  width: 640px;
+  height: 560px;
+  padding: 20px 0;
+  overflow: hidden;
 }
 
-.gridBreed{
-overflow-y: scroll;
-max-width: 640px;
-height: 500px;
-    display: grid;
-        /* grid-gap: 15px; */
-        grid-template-columns: repeat(auto-fill, 200px);
-        grid-auto-rows: 140px;
-        grid-auto-flow: dense;
-        justify-content: center;
+.gridBreed {
+  overflow-y: scroll;
+  max-width: 640px;
+  max-height: 500px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  grid-auto-rows: 140px;
+  grid-auto-flow: dense;
+  justify-content: center;
 }

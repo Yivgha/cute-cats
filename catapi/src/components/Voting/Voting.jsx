@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchImgToVote, fetchAddVote, fetchAllVotes, fetchAddToFav, fetchAllFavs } from "@/api/catapi";
@@ -26,10 +26,6 @@ const Voting = () => {
   const allFavs = useSelector(favouritesLogs);
 
   const mixedArr = newLogs.concat(allFavs)
-
-  // console.log("votinglogs", newLogs);
-  // console.log("fav logs", allFavs);
-  // console.log("mixed", mixedArr);
 
 
   useEffect(() => {

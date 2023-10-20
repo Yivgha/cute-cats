@@ -2,23 +2,17 @@
 import React, {useState, useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import defaultLimit from "../../assets/json/defaultLimit"
 import {
   myStatus,
   selectRES,
-  byLimit,
   getOneCat,
-  randomSearch,
   allUploads
 } from "@/reducers/searchReducer";
 import {
-  // fetchByLimit,
-  // fetchAscended,
-  // fetchDescended,
-  fetchRandom,
-  fetchRandomByLimit, 
+
   fetchAllValues,
   fetchMyUploads,
-  fetchUploadImg
 } from "@/api/catapi";
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
@@ -30,21 +24,17 @@ import styles from "./Gallery.module.css";
 import pageStyles from "../styles/navPages.module.css";
 import breedStyles from "../Breed/Breed.module.css"
 
-const defaultLimit = [
-  { name: 5, id: "1", description: "Limit: 5" },
-  { name: 10, id: "2", description: "Limit: 10" },
-  { name: 15, id: "3", description: "Limit: 15" },
-  { name: 20, id: "4", description: "Limit: 20" },
-];
+
 
 const Gallery = () => {
   const router = useRouter();
 
 
-    const [option, setOption] = useState();
+    const [option, setOption] = useState("None");
   const [baseLimit, setBaseLimit] = useState(defaultLimit[1].name);
-  const [order, setOrder] = useState("RAND")
+  const [order, setOrder] = useState("DESC")
   const [type, setType] = useState("All");
+  const [page, setPage] = useState(0)
  
 
   const [showModal, setShowModal] = useState(false);
@@ -53,89 +43,60 @@ const Gallery = () => {
 
   const status = useSelector(myStatus);
   const res = useSelector(selectRES);
-  // const limit = useSelector(byLimit);
-  // const rand = useSelector(randomSearch)
+
    const uploads = useSelector(allUploads);
-  // const mixedArr = [...uploads, ...res].slice(0, baseLimit);
  
-  const [mixedArr, setMixedArr] = useState()
+  const [mixedArr, setMixedArr] = useState([...uploads, ...res].slice(0, baseLimit))
   
    useEffect(() => {
-     if (status === "idle") {
-      dispatch(fetchAllValues())
-      dispatch(fetchMyUploads());
-      
-    } else if(status === "loading"){
+     if(status === "loading"){
       Loading.hourglass("Loading...");
        }else if (status === "succeeded") {
        Loading.remove()
         }
    }, [status]);
 
-  useEffect(()=>{setMixedArr([...uploads, ...res].slice(0, baseLimit))}, [uploads, res, baseLimit, order])
-  // const mixedArr = useState([...uploads, ...res])
+  useEffect(() => {
   
+      dispatch(fetchAllValues())
+       dispatch(fetchMyUploads({ limit: baseLimit, order: order, mime_types: type }));
+
+  }, [baseLimit, order, type])
+
 
   const handleOrder = (e) => {
-    const flat =  mixedArr.reduce((total, amount) => {
-  return total.concat(amount);
-    }, []);
-    
-    if (e.target.value === "ASC") {
-
-      setOrder("ASC")
-      
-      
-      flat.sort((a, b) => {
-        if (a.id !== undefined && b.id !== undefined) { a.id.toLowerCase() - b.id.toLowerCase() ? 1 : -1 }
-        else if (a.image.id !== undefined && b.image.id !== undefined) {
-          a.image.id.toLowerCase() - b.image.id.toLowerCase() ? 1 : -1
-        }
-      })
-      console.log("set asc", flat);
+    if (e.target.value === "RAND") {
+      dispatch(fetchMyUploads({ limit: baseLimit, order: "DESC" }));
+      setOrder("RAND")
+    } else if (e.target.value === "ASC") {
+      dispatch(fetchMyUploads({ limit: baseLimit, order: "ASC" }))
+       setOrder("ASC")
     } else if (e.target.value === "DESC") {
-
-      flat.sort((a,b) => {if (a.id !== undefined && b.id !== undefined) { b.id.toLowerCase() - a.id.toLowerCase() ? 1 : -1 }
-        else if (a.image.id !== undefined && b.image.id !== undefined) {
-          b.image.id.toLowerCase() - a.image.id.toLowerCase() ? 1 : -1
-        }})
+      dispatch(fetchMyUploads({ limit: baseLimit, order: "DESC" }))
       setOrder("DESC")
-      console.log("set desc",  flat);
-    } else if (e.target.value === "RAND") {
-
-      setOrder("RAND");
-
-      let currentIndex = flat.length;
-      let randomIndex;
-      while (currentIndex > 0) {
-
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [flat[currentIndex], flat[randomIndex]] = [
-      flat[randomIndex],flat[currentIndex]];
-  }
-      console.log("set random", flat);     
-    }
+}
   }
 
   const handleType = (e) => {
-  //   if (e.target.value === "gif") {
-  //     dispatch(fetchRandom({ mime_types: e.target.value, limit: limit, order: order }))
-  //     setType("Animated")
-  //   } else if (e.target.value === "jpg,png") {
-  //     dispatch(fetchRandom({ mime_types: e.target.value, limit: limit, order: order }))
-  //     setType("Static")
-  //   } else {
-  //     dispatch(fetchRandom({limit: limit, order: order}))
-  // }
+    if (e.target.value === "gif") {
+      dispatch(fetchMyUploads({ mime_types: "gif", limit: baseLimit, order: order }))
+      setType("gif")
+    } else if (e.target.value === "jpg,png") {
+      dispatch(fetchMyUploads({ mime_types: "jpg,png", limit: baseLimit, order: order }))
+      setType("jpg,png")
+    } else {
+      dispatch(fetchMyUploads({ limit: baseLimit, order: order, mime_types: "jpg,gif,png" }))
+      setType("jpg,gif,png")
+  }
   }
 
+  const handleLimit = (e) => {
+    dispatch(fetchMyUploads({ limit: e, order: order }))
+    if (e > 10) {
+  setPage(page+1)
+}
+  }
 
-
-   
 
   return (
     <div className={pageStyles.wrapper}>
@@ -237,6 +198,7 @@ const Gallery = () => {
                 multiple={false}
                 onChange={(e) => {
                   setBaseLimit(e.target.value);
+                  handleLimit(e.target.value);
                 }}
                 className={styles.limitBreed}
               >
@@ -245,7 +207,8 @@ const Gallery = () => {
                 ))}
               </select>
             </label>
-            <button type="button" className={styles.updateBtn} onClick={()=>{dispatch(fetchMyUploads())}}>
+            <button type="button" className={styles.updateBtn}
+              onClick={() => { dispatch(fetchMyUploads({ limit: baseLimit, order: order, mime_types: "jpg,gif,png" })) }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" className={styles.updateBtnSVG}>
   <path d="M8.48189 2.49989L6.93396 0.953004L7.88633 0L11.0577 3.16928L7.88634 6.33873L6.93395 5.38576L8.47232 3.84832C4.51244 3.99813 1.3473 7.25498 1.3473 11.2478C1.3473 15.3361 4.66547 18.6527 8.75744 18.6527C12.8494 18.6527 16.1676 15.3361 16.1676 11.2478V10.5742H17.5149V11.2478C17.5149 16.081 13.5927 20 8.75744 20C3.92221 20 0 16.081 0 11.2478C0 6.50682 3.77407 2.64542 8.48189 2.49989Z" fill="currentColor"/>
 </svg>
@@ -253,20 +216,14 @@ const Gallery = () => {
           </div>
 
 
-          {/* //Gallery */}
-
 
           <div className={styles.breedContent} >
             {showModal ? <Modal toggleModal={setShowModal} /> : null}
             
 
-            <h1>option: {option} type: {type} limit: {baseLimit}</h1>
-
 
             <div className={styles.gridBreed}>
-              
-              {option === "None" ? (
-                  mixedArr?.map((item) => (
+              {option === "None" ? uploads?.map((item) => (
                 <div key={item.id} className={breedStyles.item} onClick={() => {
                   if(item?.image?.url !== undefined )
                  { dispatch(getOneCat(item));
@@ -287,35 +244,35 @@ const Gallery = () => {
                           </div>
                         </div>
                       </div>
-              ))
-                ): (res?.map((item) => {
-                  if (item.name === option) {
+              )) : res?.map((item) => {
+                if (item.name === option) {
                         
-                    return (
-                      <div key={item.id} className={breedStyles.item} onClick={() => {
-                        dispatch(getOneCat(item));
-                        console.log("set item", item);
-                        router.push("/breed/info")
-                      }}>
-                        <img
-                          key={item.id}
-                          src={item?.image?.url}
-                          alt={item.name}
-                          className={breedStyles.gridImg}
-                        />
+                  return (
+                    <div key={item.id} className={breedStyles.item} onClick={() => {
+                      dispatch(getOneCat(item));
+                      console.log("set item", item);
+                      router.push("/breed/info")
+                    }}>
+                      <img
+                        key={item.id}
+                        src={item?.image?.url}
+                        alt={item.name}
+                        className={breedStyles.gridImg}
+                      />
                            
-                        <div className={breedStyles.imgOverlay}>
-                          <div className={breedStyles.imgOverlayLabel}>
-                            <p className={breedStyles.imgOverlayText}>
-                              {item.name}
-                            </p>
-                          </div>
+                      <div className={breedStyles.imgOverlay}>
+                        <div className={breedStyles.imgOverlayLabel}>
+                          <p className={breedStyles.imgOverlayText}>
+                            {item.name}
+                          </p>
                         </div>
                       </div>
-                    );
-                  }
-              }))}
-
+                    </div>
+                  );
+                }
+              })}
+              
+             
               
               </div>
             </div>

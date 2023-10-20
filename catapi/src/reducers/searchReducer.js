@@ -13,7 +13,6 @@ import {
   fetchAllFavs,
   fetchDeleteFav,
   fetchRandomByLimit,
-  // fetchRandomByType,
   fetchUploadImg,
   fetchMyUploads
 } from "../api/catapi";
@@ -126,18 +125,6 @@ export const searchSlice = createSlice({
         state.randomSearch = action.payload;
         state.order = action.payload.order;
       })
-    // .addCase(fetchRandomByType.pending, (state, action) =>{
-    //     state.status = "loading";
-    //   })
-    //   .addCase(fetchRandomByType.rejected, (state, action) => {
-    //     state.status = "failed";
-    //     console.log("rejected data store ", state, action);
-    //     state.error = action.error.message;
-    //   })
-    //   .addCase(fetchRandomByType.fulfilled, (state, action) => {
-    //     state.status = "succeeded";
-    //     state.randomSearch = action.payload;
-    //   })
       .addCase(fetchByName.pending, (state, action) => {
         state.status = "loading";
       })

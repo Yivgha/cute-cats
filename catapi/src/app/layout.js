@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 import "./globals.css"
 import { Jost } from "next/font/google"
 import { Provider } from 'react-redux';

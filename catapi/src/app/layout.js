@@ -6,7 +6,7 @@ import Store from "../reducers/store";
 import "./globals.css";
 import { Jost } from "next/font/google";
 
-export const metadata = {
+const metadata = {
   title: "Cute cats API",
   description: "Look for best cat ever",
   icons: {

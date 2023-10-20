@@ -38,10 +38,8 @@ const Voting = () => {
   }, []);
 
   useEffect(() => {
-    if (status === "idle" || oneImg === null) {
     dispatch(fetchImgToVote())
-    }
-  }, [status, dispatch])
+  }, [dispatch])
   
   useEffect(() => {
     dispatch(fetchAllVotes({limit: 3}));

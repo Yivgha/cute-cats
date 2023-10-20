@@ -18,8 +18,6 @@ const nextConfig = {
     API_KEY:
       "live_rqbkVVw0UwNco4qdCMCbVM7KJ9hj0b95WQUfWe023g97Hv7dYQC6zvKR4HChhnyT",
   },
-  output: "export",
-  basePath: "/nextjs-github-pages/catapi",
   experimental: {
     forceSwcTransforms: true,
   },

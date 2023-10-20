@@ -6,13 +6,6 @@ import Store from "../reducers/store";
 import "./globals.css";
 import { Jost } from "next/font/google";
 
-const metadata = {
-  title: "Cute cats API",
-  description: "Look for best cat ever",
-  icons: {
-    icon: "./icon.ico",
-  },
-};
 const jost = Jost({
   subsets: ["latin"],
   display: "swap",
@@ -24,6 +17,19 @@ export default function RootLayout(props) {
   return (
     <Provider store={Store}>
       <html lang="en" className={jost.variable}>
+        <head>
+          <title>Cute cats API</title>
+          <link
+  rel="icon"
+  href="./icon.ico"
+  type="image/<generated>"
+  sizes="<generated>"
+          />
+          <meta
+  name="description"
+  content="Look for best cat ever"
+/>
+        </head>
         <body>{props.children}</body>
       </html>
 </Provider>
